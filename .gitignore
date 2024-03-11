@@ -1,4 +1,5 @@
 mybpf/build
+runtime/build
 *.dylib
 *.so
 tags

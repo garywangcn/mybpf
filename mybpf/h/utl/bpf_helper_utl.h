@@ -21,13 +21,23 @@ extern "C"
 #define BPF_USER_HELPER_COUNT 256
 #define BPF_USER_HELPER_END (BPF_USER_HELPER_START + BPF_USER_HELPER_COUNT)
 
-typedef UINT64 (*PF_BPF_HELPER_FUNC)(UINT64 p1, UINT64 p2, UINT64 p3, UINT64 p4, UINT64 p5);
+#define BPF_TMP_HELPER_START 3000000
+#define BPF_TMP_HELPER_COUNT 256
+#define BPF_TMP_HELPER_END (BPF_TMP_HELPER_START + BPF_TMP_HELPER_COUNT)
+
+typedef U64 (*PF_BPF_HELPER_FUNC)(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5);
 
 void * BpfHelper_GetFunc(unsigned int id);
-int BpfHelper_RegUserFunc(UINT id, void *func);
+int BpfHelper_RegFunc(U32 id, void *func);
 const void ** BpfHelper_BaseHelper(void);
 const void ** BpfHelper_SysHelper(void);
 const void ** BpfHelper_UserHelper(void);
+
+#define BpfHelper_CallFunc(err_ret, func_id, p1, p2, p3, p4, p5) ({ \
+        PF_BPF_HELPER_FUNC fn = bpf_helper_get_func(func_id); \
+        if (! fn) { return err_ret; } \
+        return fn(p1, p2, p3, p4, p5); \
+        })
 
 #ifdef __cplusplus
 }

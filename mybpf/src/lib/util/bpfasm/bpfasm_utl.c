@@ -32,6 +32,6 @@ int BPFASM_Run(BPFASM_S *ctrl, const char *func_name, OUT UINT64 *bpf_ret, MYBPF
 
     code = (MYBPF_INSN_S *)ctrl->begin_addr + f->insn_offset;
 
-    return MYBPF_DefultRunCode(ctrl->begin_addr, ctrl->end_addr, code, bpf_ret, p);
+    return MYBPF_DefultRunCode(ctrl->begin_addr, ctrl->end_addr, code, bpf_ret, NULL, p);
 }
 

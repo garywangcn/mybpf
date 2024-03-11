@@ -351,7 +351,7 @@ S64 FILE_GetFileSize(void *fp)
     return size;
 }
 
-    BS_STATUS FILE_GetUtcTime
+BS_STATUS FILE_GetUtcTime
 (
  IN CHAR *pszFileName,
  OUT time_t *pulCreateTime,   
@@ -799,14 +799,12 @@ VOID FILE_WriteStr(IN FILE *fp, IN CHAR *pszString)
     fwrite(pszString, 1, strlen(pszString), fp);
 }
 
-
-FILE_MEM_S * FILE_Mem(IN CHAR *pszFilePath)
+int FILE_Mem2(IN CHAR *filename, OUT FILE_MEM_S *m)
 {
     FILE *fp;
     S64 filesize;
-    FILE_MEM_S *m = NULL;
 
-    fp = FILE_Open(pszFilePath, FALSE, "rb");
+    fp = FILE_Open(filename, FALSE, "rb");
     if (! fp) {
         goto _ERR;
     }
@@ -816,13 +814,7 @@ FILE_MEM_S * FILE_Mem(IN CHAR *pszFilePath)
         goto _ERR;
     }
 
-    m = MEM_ZMalloc(sizeof(FILE_MEM_S));
-    if (! m) {
-        goto _ERR;
-    }
-
     m->len = filesize;
-
     m->data = MEM_Malloc(filesize + 1);
     if (! m->data) {
         goto _ERR;
@@ -833,20 +825,37 @@ FILE_MEM_S * FILE_Mem(IN CHAR *pszFilePath)
     }
 
     m->data[filesize] = '\0';
-
     fclose(fp);
 
-    return m;
+    return 0;
 
 _ERR:
     if (fp) {
         fclose(fp);
     }
-    if (m) {
-        MEM_SafeFree(m->data);
-        MEM_Free(m);
+    if (m->data) {
+        MEM_Free(m->data);
     }
-    return NULL;
+
+    RETURN(BS_ERR);
+}
+
+
+FILE_MEM_S * FILE_Mem(IN CHAR *pszFilePath)
+{
+    FILE_MEM_S *m = NULL;
+
+    m = MEM_ZMalloc(sizeof(FILE_MEM_S));
+    if (! m) {
+        return NULL;
+    }
+
+    if (FILE_Mem2(pszFilePath, m) < 0) {
+        MEM_Free(m);
+        return NULL;
+    }
+    
+    return m;
 }
 
 FILE_MEM_S * FILE_MemByData(void *data, int data_len)

@@ -7,17 +7,12 @@ ENDIF()
 
 INCLUDE(${CMAKE_SOURCE_DIR}/my_cmake_def.txt)
 
-project (mysys)
+project (mybpf)
 
 include_directories(./h)
 
 # utl
 add_subdirectory(./src/lib/util)
-
-IF (WIN32)
-include_directories(../open/h)
-add_subdirectory(./src_win/lib/util)
-ENDIF ()
 
 # base
 add_subdirectory(./src/lib/base)
@@ -25,7 +20,4 @@ add_subdirectory(./src/lib/base)
 # tools
 add_subdirectory(./src/tool)
 
-IF (WIN32)
-set(CMAKE_C_FLAGS "/utf-8 ${CMAKE_C_FLAGS}")
-ENDIF()
 

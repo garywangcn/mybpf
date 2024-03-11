@@ -11,8 +11,8 @@ extern "C" {
 #endif
 
 int MYBPF_BARE_Convert2File(char *src_filename, char *dst_filename, MYBPF_SIMPLE_CONVERT_PARAM_S *p);
-int MYBPF_BARE_RunBare(void *mem, int mem_len, int argc, char **argv);
-int MYBPF_BARE_RunFile(char *file, char *params);
+int MYBPF_RunBare(void *mem, int mem_len, void **tmp_helpers, MYBPF_PARAM_S *p);
+int MYBPF_RunBareFile(char *file, void **tmp_helpers, char *params);
 
 #ifdef __cplusplus
 }

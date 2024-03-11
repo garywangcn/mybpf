@@ -6,14 +6,12 @@
 
 noinline int test2(int a)
 {
-    printf("Hello test2! \n");
     a ++;
     return a;
 }
 
 noinline int test(int a)
 {
-    printf("Hello test! \n");
     a ++;
     return test2(a);
 }
@@ -21,8 +19,12 @@ noinline int test(int a)
 SEC("tcmd/hello_test")
 int main()
 {
-    printf("start \n");
-    printf("a=%d \n", test(0));
+    if (test(0) != 2) {
+        printf("Test Failed\n");
+        return -1;
+    }
+
+    printf("Test OK \n");
     return 0;
 }
 

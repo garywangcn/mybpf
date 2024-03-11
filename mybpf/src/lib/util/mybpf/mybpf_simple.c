@@ -507,6 +507,7 @@ static int _mybpf_simple_jit_progs(void *insts, int insts_len, void *progs, int 
 
     cfg.translate_mode_aot = p->translate_mode_aot;
     cfg.aot_map_index_to_ptr = p->aot_map_index_to_ptr;
+    cfg.param_6th = p->param_6th;
     cfg.helper_mode = p->helper_mode;
     cfg.jit_arch = p->jit_arch;
 

@@ -30,6 +30,7 @@ typedef struct {
 
     UINT translate_mode_aot: 1; 
     UINT aot_map_index_to_ptr: 1; 
+    UINT param_6th: 1; 
 
     UINT helper_mode: 4;
 

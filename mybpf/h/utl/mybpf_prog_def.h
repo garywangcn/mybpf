@@ -15,6 +15,7 @@ typedef struct {
     const void **base_helpers;
     const void **sys_helpers;
     const void **user_helpers;
+    const void **tmp_helpers;
     void *maps; 
     void **global_map_data;
     void *loader_node;
