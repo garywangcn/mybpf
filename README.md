@@ -10,6 +10,7 @@
 
 # 编译mybpf
   cd mybpf
+  
   这里有两个build_xxx.sh文件，分别是不同环境下的编译脚本
   
   在MACOS机器上
@@ -27,19 +28,29 @@
 
 # 用法
   对ebpf做AOT编译
+  
     编译为bare格式
+  
     runbpf convert bare -j -m 4 ebpf文件名 -o 输出文件名
+    
     编译为SPF格式
+    
     runbpf convert simple -j -m 4 ebpf文件名 -o 输出文件名
+  
   运行
+    
     runbpf run bare bare文件名
+    
     或者
+    
     runbpf run file SPF文件名
 
 # 示例
-  cd runtime/test
-  runbpf con bare -j -m 4 test_sub_prog.o
-  user_example test_sub_prog.o.bare
+cd runtime/test
+  
+runbpf con bare -j -m 4 test_sub_prog.o
+  
+user_example test_sub_prog.o.bare
 
 
 
