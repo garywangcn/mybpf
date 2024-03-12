@@ -9,17 +9,17 @@
   是运行Bare格式的示例
 
 # 编译mybpf
-  cd mybpf
+cd mybpf
   
-  这里有两个build_xxx.sh文件，分别是不同环境下的编译脚本
+这里有两个build_xxx.sh文件，分别是不同环境下的编译脚本
   
-  在MACOS机器上
-  ./build_macos.sh
+在MACOS机器上
+./build_macos.sh
   
-  在Linux机器上
-  ./build_linux.sh
+在Linux机器上
+./build_linux.sh
   
-  编译出 build/out/tool/runbpf 文件
+编译出 build/out/tool/runbpf 文件
 
 # 编译runtime
   cd runtime
