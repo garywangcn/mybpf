@@ -111,7 +111,7 @@ void ulc_sys_memset(void *d, int c, int len)
     memset(d, c, len);
 }
 
-
+/* base helper. 和linux内置定义helper一一对应,请不要注册和linux不一致的helper */
 static const void * g_bpf_base_helpers[BPF_BASE_HELPER_COUNT] = {
     [4] = __bpfprobe_read,
     [5] = __bpfktime_get_ns,
@@ -120,9 +120,9 @@ static const void * g_bpf_base_helpers[BPF_BASE_HELPER_COUNT] = {
     [105] = __bpfstrtol,
     [106] = __bpfstrtoul,
 };
-
+/* sys helper. linux系统定义之外的统一定义, 请不要随意定义 */
 static const void * g_bpf_sys_helpers[BPF_SYS_HELPER_COUNT] = {
-    [0] = ulc_sys_malloc, 
+    [0] = ulc_sys_malloc, /* 1000000 */
     [1] = ulc_sys_calloc,
     [2] = ulc_sys_free,
     [3] = ulc_sys_memcpy,
@@ -133,7 +133,7 @@ static const void * g_bpf_sys_helpers[BPF_SYS_HELPER_COUNT] = {
     [11] = ulc_sys_strcmp,
     [12] = ulc_sys_strlcpy,
 };
-
+/* user helper. 没有任何预规定，用户可以定义 */
 static const void * g_bpf_user_helpers[BPF_USER_HELPER_COUNT];
 
 const void ** BpfHelper_BaseHelper(void)
@@ -151,7 +151,7 @@ const void ** BpfHelper_UserHelper(void)
     return (const void **)g_bpf_user_helpers;
 }
 
-
+/* 根据id获取helper函数指针 */
 const void * BpfHelper_GetFunc(U32 id)
 {
     if (id < BPF_BASE_HELPER_END) {

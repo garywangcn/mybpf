@@ -5,7 +5,7 @@
 ******************************************************************************/
 #include "utl/mybpf_jit_def.h"
 
-
+/* 获取本地架构的arch type */
 int MYBPF_JIT_LocalArch(void)
 {
 #ifdef __aarch64__
