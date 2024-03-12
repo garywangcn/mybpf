@@ -64,7 +64,9 @@ void MYBPF_SIMPLE_Close(FILE_MEM_S *m);
 
 int MYBPF_SIMPLE_WriteFile(FILE_MEM_S *m, char *filename);
 int MYBPF_SIMPLE_GetMapCount(FILE_MEM_S *m);
+U32 MYBPF_SIMPLE_GetMapFlags(FILE_MEM_S *m);
 int MYBPF_SIMPLE_GetMapsSection(FILE_MEM_S *m, OUT MYBPF_MAPS_SEC_S *map_sec);
+void * MYBPF_SIMPLE_GetMap(FILE_MEM_S *m, int index);
 char * MYBPF_SIMPLE_GetMapName(FILE_MEM_S *m, int id);
 int MYBPF_SIMPLE_GetMapIDByName(FILE_MEM_S *m, char *name);
 int MYBPF_SIMPLE_GetJitArch(FILE_MEM_S *m);

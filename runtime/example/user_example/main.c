@@ -10,8 +10,8 @@
 #include "utl/mybpf_bare.h"
 
 typedef struct {
-    U8 *data; /* 文件数据 */
-    U64 len;   /* 文件长度 */
+    U8 *data; 
+    U64 len;   
 }LLDATA_S;
 
 void * MMAP_Create(int size)
@@ -26,7 +26,7 @@ void * MMAP_Create(int size)
     return code;
 }
 
-/* head_size: 保留的head size大小 */
+
 void * MMAP_Map(void *buf, int buf_size, int head_size)
 {
     U8 *code = NULL;
@@ -111,7 +111,7 @@ _ERR:
     return -1;
 }
 
-/* ./user_example filename */
+
 int main(int argc, char **argv)
 {
     LLDATA_S m = {0};

@@ -15,7 +15,7 @@
 
 typedef struct {
     U32 magic;
-    U32 size; /* 文件大小,包含此头部 */
+    U32 size; 
     U8 ver;
     U8 jit_arch;
     U8 reserved[6];
@@ -51,18 +51,18 @@ static int _mybpf_get_bare_size(void *mem, int mem_len)
     MYBPF_BARE_HDR_S *hdr = mem;
 
     if (mem_len <= sizeof(*hdr)) {
-        /* 太小 */
+        
         RETURNI(BS_TOO_SMALL, "Too small");
     }
 
     if (hdr->magic != htonl(MYBPF_BARE_MAGIC)) {
-        /* 魔数不对 */
+        
         RETURNI(BS_NOT_MATCHED, "Magic not match");
     }
 
     int size = ntohl(hdr->size);
     if (size > mem_len) {
-        /* 文件太小 */
+        
         RETURNI(BS_WRONG_FILE, "File length not valid");
     }
 

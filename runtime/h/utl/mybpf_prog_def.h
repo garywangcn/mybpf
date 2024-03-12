@@ -10,13 +10,13 @@ extern "C"
 {
 #endif
 
-/* 运行 prev jit prog时需要的ctx */
+
 typedef struct {
     const void **base_helpers;
     const void **sys_helpers;
     const void **user_helpers;
     const void **tmp_helpers;
-    void *maps; /* UMAP_HEADER_S ** */
+    void *maps; 
     void **global_map_data;
     void *loader_node;
     void *agent_func;
@@ -25,4 +25,4 @@ typedef struct {
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_PROG_DEF_H_
+#endif 

@@ -39,13 +39,16 @@ typedef struct {
     UCHAR resereved[2];
 }MYBPF_SIMPLE_COMMON_HDR_S;
 
+#define MYBPF_SIMPLE_MAP_FLAG_BSS  0x1 
+#define MYBPF_SIMPLE_MAP_FLAG_DATA 0x2 
+#define MYBPF_SIMPLE_MAP_FLAG_RODATA 0x4 
 typedef struct {
     UINT sec_size; 
     UCHAR sec_type;
     UCHAR name_size; 
 
     UCHAR map_count; 
-    UCHAR reserved2;
+    UCHAR flags; 
 }MYBPF_SIMPLE_MAP_HDR_S;
 
 typedef struct {

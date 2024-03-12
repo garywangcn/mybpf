@@ -46,13 +46,13 @@ typedef enum{
 	BS_NOT_MATCHED = -32,
 	BS_VERIFY_FAILED = -33,
 	BS_NOT_INIT = -34,
-	BS_REF_NOT_ZERO = -35, /* 引用计数不为0 */
+	BS_REF_NOT_ZERO = -35, 
     BS_BUSY = -36,
     BS_PARSE_FAILED = -37,
 	BS_REACH_MAX = -38,
     BS_STOLEN = -39,
 
-    /* 模块私有定义,在BS_PRIVATE_BASE 基础上增加 */
+    
     BS_PRIVATE_BASE = -100
 }BS_STATUS;
 
@@ -62,4 +62,4 @@ typedef enum{
 #ifdef __cplusplus
 }
 #endif
-#endif //TYPES_H_
+#endif 

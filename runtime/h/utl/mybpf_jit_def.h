@@ -21,4 +21,4 @@ enum {
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_JIT_DEF_H_
+#endif 

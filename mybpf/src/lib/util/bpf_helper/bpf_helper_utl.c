@@ -302,6 +302,25 @@ static int ulc_mmap_make_exe(void *buf, int size)
     return MMAP_MakeExe(buf, size);
 }
 
+static void * g_bpf_helper_trusteeship[16];
+
+static int ulc_set_trusteeship(unsigned int id, void *ptr)
+{
+    if (id >= ARRAY_SIZE(g_bpf_helper_trusteeship)) {
+        return -1;
+    }
+    g_bpf_helper_trusteeship[id] = ptr;
+    return 0;
+}
+
+static void * ulc_get_trusteeship(unsigned int id)
+{
+    if (id >= ARRAY_SIZE(g_bpf_helper_trusteeship)) {
+        return NULL;
+    }
+    return g_bpf_helper_trusteeship[id];
+}
+
 
 static const void * g_bpf_base_helpers[BPF_BASE_HELPER_END] = {
     [0] = NULL,
@@ -350,6 +369,8 @@ static const void * g_bpf_sys_helpers[BPF_SYS_HELPER_COUNT] = {
     [13] = ulc_mmap_map,
     [14] = ulc_mmap_unmap,
     [15] = ulc_mmap_make_exe,
+    [16] = ulc_set_trusteeship,
+    [17] = ulc_get_trusteeship,
 };
 
 

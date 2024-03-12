@@ -17,4 +17,4 @@ int MMAP_MakeExe(void *buf, int size);
 #ifdef __cplusplus
 }
 #endif
-#endif //MMAP_UTL_H_
+#endif 

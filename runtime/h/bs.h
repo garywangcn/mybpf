@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <time.h>
 #include "types.h"
 
 #ifdef __cplusplus
@@ -31,4 +32,4 @@ typedef long long S64;
 #ifdef __cplusplus
 }
 #endif
-#endif //BS_H_
+#endif 

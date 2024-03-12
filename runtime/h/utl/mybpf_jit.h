@@ -15,4 +15,4 @@ int MYBPF_JIT_LocalArch(void);
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_JIT_H_
+#endif 

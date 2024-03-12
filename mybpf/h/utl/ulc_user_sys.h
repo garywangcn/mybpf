@@ -76,6 +76,8 @@ static int (*ulc_sys_strlcpy)(void *dst, void *src, int size) = (void*)1000012;
 static void * (*ulc_mmap_map)(void *buf, int buf_size, int head_size) = (void*)1000013;
 static void (*ulc_mmap_unmap)(void *buf, int size) = (void*)1000014;
 static int (*ulc_mmap_make_exe)(void *buf, int size) = (void*)1000015;
+static int (*ulc_set_trusteeship)(unsigned int id, void *ptr) = (void*)1000016;
+static void * (*ulc_get_trusteeship)(unsigned int id) = (void*)1000017;
 
 #endif
 
