@@ -108,7 +108,7 @@ MacOS：
   是AOT编译器代码所在目录  
   
 # 目录runtime
-  是运行Bare格式的示例  
+  是runtime代码目录  
 
 # 编译mybpf
 cd mybpf  
