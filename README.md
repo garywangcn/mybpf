@@ -47,6 +47,12 @@ SPF比BARE格式要复杂，其runtime也更为复杂，移植的代价也会更
 首先，移植BARE格式的Runtime到目标系统上，然后再加载spf_loader.bare文件(不需要移植其Runtime)，它会初始化SPF环境，并接受SPF文件的进一步加载。这样，只需要一个极简单的Bare Runtime + spf的Bare文件即可支持SPF。  
 再进一步，还可以加载ebpf_loader.spf，进而支持在目标环境上直接解释、JIT运行ebpf文件。  
 
+# 热升级
+热升级分为几种情况：  
+  1. APP的热升级：这是ebpf框架原生支持的，可以随时加载、卸载、替换ebpf文件到内核。同样，mybpf也可以很方便对APP进行加载、卸载和升级。但需要注意的是，如果使用了非base helper的危险性helper，如malloc可能会造成内存泄露。  
+  2. EBPF环境和SPF环境的热升级：可以热升级EPBF、SPF的运行环境，但需要注意的是，这会导致所有APP的卸载，热升级后需要重新加载这些APP。  
+  3. 不支持BARE环境的热升级，BARE环境当前是直接内嵌到目标系统，不支持热升级。当然，大多数情况下它也不需要升级。  
+
 # 性能测试
 测试环境:  
 MacBook Pro  芯片：Apple M2 Pro  macOS：14.2.1   
