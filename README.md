@@ -94,7 +94,7 @@ Linux内核态
 Macos用户态 (Intel CPU 笔记本、M1笔记本、M2笔记本)  
 Windows用户态  
 嵌入式(uboot + qemu)  
-Openwrt (Newifi2)  
+Openwrt (Newifi2+解释器)  
 树莓派 (2B+)  
 华为手机 (P20+Termux)  
 
