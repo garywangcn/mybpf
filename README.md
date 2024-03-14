@@ -22,7 +22,7 @@ runtime运行AOT后的文件
 2. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
 3. runtime不用频繁更新，大多数升级、功能演进工作在工具库中完成
 
-附：不同格式文件大小:
+附：不同格式文件大小:  
 ![image](https://github.com/windgorain/mybpf/assets/35138361/7a62a067-4d74-49cc-8cb9-3735041291e5)
 
 # AOT格式
@@ -97,10 +97,10 @@ Linux内核：
 ![KBCM1vnTKk](https://github.com/windgorain/mybpf/assets/35138361/880a3a22-2a07-45b1-a495-234095fd2712)
 ![TtDGHepWlM](https://github.com/windgorain/mybpf/assets/35138361/366fdb65-c9ac-4752-866c-ba48f1b3ffca)
 
-Uboot：
+Uboot：  
 ![img_v3_028f_3492d659-26c0-4d64-ba7e-7c1a0d54f70g](https://github.com/windgorain/mybpf/assets/35138361/2842b492-0960-4033-b62f-92424ad2e51d)
 
-MacOS：
+MacOS：  
 ![img_v3_028f_cd5a074f-8457-4308-b7db-d4ac7f6b81fg](https://github.com/windgorain/mybpf/assets/35138361/4a781dfc-a6b6-4acc-9707-1c95dd4d7405)
 
 
