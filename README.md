@@ -68,7 +68,7 @@ time ./a.out 10000000000
 3.74s user 0.00s system 98% cpu 3.793 total  
 
 解释执行:  
-time ./runbpf run file fibonacci.o -p 10000000000
+time ./runbpf run file fibonacci.o -p 10000000000  
 91.65s user 0.01s system 99% cpu 1:32.14 total  
 可以看出解释执行性能很低，需要90多秒
 
