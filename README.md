@@ -29,7 +29,7 @@ runtime运行AOT后的文件
 AOT当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
 支持输出两种不同的文件格式：SPF格式和BARE格式。  
 Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内部子函数、支持helper。不支持map。其runtime非常小,极简runtime不到一百行代码。  
-SPF格式比Bare格式复杂(但也比elf要简单)，其runtime不到一千行，支持全局变量(bss、data、rodata)、子函数、map、helper。  
+SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
 
 # Helper
 分为四种不同类型Helper： Base、Sys、User、Temp  
