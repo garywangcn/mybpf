@@ -13,23 +13,24 @@ mybpf的特点
   5. 内置部分系统helper，支持自定义helper  
 
 # 架构
-mybpf主要分为两部分： 工具 + runtime。  
-工具部分支持JIT、AOT、解释器、dump、verifier 等功能  
-runtime运行AOT后的文件  
-
-选择runtime和工具分离的架构，主要原因是为了方便可移植，并同时还有以下好处：  
-1. AOT文件格式非常简单(相比ELF)，处理它的runtime代码非常少。又因为runtime代码非常精简，所以非常容易移植  
-2. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
-3. runtime不用频繁更新，大多数升级、功能演进工作在工具库中完成
-
-附：不同格式文件大小:  
-![image](https://github.com/windgorain/mybpf/assets/35138361/7a62a067-4d74-49cc-8cb9-3735041291e5)
+mybpf主要分为两部分： 编译工具 + runtime。  
+编译工具部分支持JIT、AOT、解释器、dump、verifier 等功能  
+runtime: 运行ebpf文件  
 
 # AOT格式
 AOT当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
 支持输出两种不同的文件格式：SPF格式和BARE格式。  
 Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内部子函数、支持helper。不支持map。  
 SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
+
+AOT格式文件的好处:  
+1. AOT文件格式非常简单(相比ELF)，处理它的runtime代码非常少。
+2. 因为runtime代码非常精简，所以非常容易到处移植  
+3. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
+4. 简洁的runtime不用频繁更新，大多数的功能升级、演进工作在编译工具中完成
+
+附：不同格式文件大小:  
+![image](https://github.com/windgorain/mybpf/assets/35138361/7a62a067-4d74-49cc-8cb9-3735041291e5)
 
 # Helper
 分为四种不同类型Helper： Base、Sys、User、Temp  
