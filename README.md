@@ -154,6 +154,24 @@ cd mybpf
 触发cmd执行: testcmd
 
 # 示例
+```
+
+cd mybpf  
+./build_mac.sh 或者 ./build_linux.sh  
+cd build/out/spf_runtime  
+cp ../../../loader/spf_loader.bare ./  
+cp ../../../example/ulc/test/*.o ./  
+
+../tool/runbpf con bare test_sub_prog.o -o test_sub_prog.bare  
+./bare_cmd test_sub_prog.bare  
+
+../tool/runbpf con simple test_func_ptr_global.o -o test_func_ptr_global.spf -j -m 1
+./bare_spf  
+> load file test test_func_ptr_global.spf  
+> testcmd
+> quit
+
+```
 
 
 
