@@ -174,7 +174,7 @@ cp ../../../example/ulc/test/*.o ./
 
 # 编写APP 示例
 cd example/ulc/test  
-编辑 my_test.c
+编辑 my_test.c, 输入以下内容:  
 ```
 #include "utl/ulc_user.h"
 
@@ -186,6 +186,6 @@ int main()
 }
 ```
 
-clang -O2 -I ../../../h -target bpf -c test_print.c  -D IN_ULC_USER
+clang -O2 -I ../../../h -target bpf -c my_test.c  -D IN_ULC_USER  
 
 
