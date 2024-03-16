@@ -151,7 +151,7 @@ cd mybpf
 卸载所有spf文件: unload all  
 触发cmd执行: testcmd
 
-# 示例
+# 使用示例
 ```
 cd mybpf
 
@@ -170,5 +170,22 @@ cp ../../../example/ulc/test/*.o ./
 > testcmd
 > quit
 
+```
+
+# 编写APP 示例
+```
+cd example/ulc/test
+编辑 test_print.c
+
+#include "utl/ulc_user.h"
+
+SEC("tcmd/hello_test")
+int main()
+{
+    printf("Test OK \n");
+    return 0;
+}
+
+clang -O2 -I ../../../h -target bpf -c test_print.c  -D IN_ULC_USER
 ```
 
