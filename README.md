@@ -38,9 +38,6 @@ Sys [1,000,000 - 2,000,000)： 通用的系统helper，如malloc、free，strcpy
 User [2,000,000 - 3,000,000):  用户可自定义的全局Helper  
 Temp [3,000,000 - 4,000,000): 用户可自定义的临时Helper  
 
-# 安全性
-mybpf的安全性依赖可选择开启的verifier。在解释、JIT、AOT之前，先对ebpf字节码进行安全性验证，验证通过后，再继续执行、JIT、AOT操作。  
-
 # 热升级
 热升级分为几种情况：  
   1. APP的热升级：这是ebpf框架原生支持的，可以随时加载、卸载、替换ebpf文件到内核。同样，mybpf也可以很方便对APP进行加载、卸载和升级。但需要注意的是，如果使用了非base helper的危险性helper，如malloc的非托管内存，卸载APP之前需要考虑是否主动Free内存.  
