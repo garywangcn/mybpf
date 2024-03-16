@@ -124,7 +124,7 @@ cd mybpf
   编译为bare格式  
     runbpf convert bare ebpf文件名 -o 输出文件名  
   编译为SPF格式  
-    runbpf convert simple -j -m 1 ebpf文件名 -o 输出文件名  
+    runbpf convert simple -j ebpf文件名 -o 输出文件名  
 
 ## 执行 
   运行bare格式文件:  
@@ -164,7 +164,7 @@ cp ../../../example/ulc/test/*.o ./
 ../tool/runbpf con bare test_sub_prog.o -o test_sub_prog.bare
 ./bare_cmd test_sub_prog.bare
 
-../tool/runbpf con simple test_func_ptr_global.o -o test_func_ptr_global.spf -j -m 1
+../tool/runbpf con simple test_func_ptr_global.o -o test_func_ptr_global.spf -j
 ./bare_spf spf_loader_x64.bare
 > load file test test_func_ptr_global.spf
 > testcmd
