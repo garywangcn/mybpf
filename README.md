@@ -24,7 +24,7 @@ Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内�
 SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
 
 AOT格式文件的好处:  
-1. AOT文件格式非常简单(相比ELF)，处理它的runtime代码非常少。
+1. 相比ELF, mybpf的AOT文件格式非常简单，处理它的runtime代码非常少。
 2. 因为runtime代码非常精简，所以非常容易到处移植  
 3. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
 4. 简洁的runtime不用频繁更新，大多数的功能升级、演进工作在编译工具中完成
