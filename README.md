@@ -109,12 +109,6 @@ MacOS：
 ![img_v3_028f_cd5a074f-8457-4308-b7db-d4ac7f6b81fg](https://github.com/windgorain/mybpf/assets/35138361/4a781dfc-a6b6-4acc-9707-1c95dd4d7405)
 
 
-# 目录mybpf
-  是AOT编译器代码所在目录  
-  
-# 目录runtime
-  是runtime代码目录  
-
 # 编译mybpf
 cd mybpf  
 这里有两个build_xxx.sh文件，分别是不同环境下的编译脚本  
@@ -125,22 +119,39 @@ cd mybpf
 在Linux机器上  
 ./build_linux.sh  
 
-编译出 build/out/tool/runbpf 文件 
-
-# 编译runtime
-  cd runtime  
-  执行对应环境的编译脚本 (分别为build_linux.sh 和 build_macos.sh)  
-  编译出 build/out/example/user_example  
+编译结果在: build/out/  
 
 # 用法
+## AOT编译  
   编译为bare格式  
-    runbpf convert bare -j -m 4 ebpf文件名 -o 输出文件名  
+    runbpf convert bare ebpf文件名 -o 输出文件名  
   编译为SPF格式  
-    runbpf convert simple -j -m 4 ebpf文件名 -o 输出文件名  
-  运行  
+    runbpf convert simple -j -m 1 ebpf文件名 -o 输出文件名  
+
+## 执行 
+  运行bare格式文件:  
     runbpf run bare bare文件名  
-    或者  
-    runbpf run file SPF文件名
+  运行spf格式文件:  
+    runbpf run file SPF文件名  
+
+## runtime
+### bare_cmd
+  bare_cmd是以命令行方式执行bare文件的runtime  
+  用法:  bare_cmd file.bare  
+  file.bare: bare格式的app名称  
+
+### bare_interactive
+  bare_interactive是交互模式的 bare runtime  
+
+### bare_spf
+  bare_spf是交互模式的runtime，依赖 spf_loader.bare 文件  
+  用法:  
+将bare_spf 和 spf_loader.bare放在一起  
+执行:  ./bare_spf
+加载spf文件:  load file instance_name file.spf  
+卸载spf文件: unload instance instance_name  
+卸载所有spf文件: unload all  
+触发cmd执行: testcmd
 
 # 示例
 cd runtime/test  
