@@ -158,7 +158,7 @@ cd mybpf
 ./build_mac.sh 或者 ./build_linux.sh
 
 cd build/out/spf_runtime
-cp ../../../loader/spf_loader.bare ./
+cp ../../../loader/*.bare ./
 cp ../../../example/ulc/test/*.o ./
 
 ../tool/runbpf con bare test_sub_prog.o -o test_sub_prog.bare
