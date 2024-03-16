@@ -20,4 +20,6 @@ add_subdirectory(./src/lib/base)
 # tools
 add_subdirectory(./src/tool)
 
+# spf_runtime
+add_subdirectory(./src/spf_runtime)
 

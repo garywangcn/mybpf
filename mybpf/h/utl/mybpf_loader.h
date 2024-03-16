@@ -6,7 +6,6 @@
 #ifndef _MYBPF_LOADER_H
 #define _MYBPF_LOADER_H
 
-#include "utl/file_utl.h"
 #include "utl/elf_utl.h"
 #include "utl/umap_utl.h"
 #include "utl/mybpf_runtime.h"
@@ -48,7 +47,6 @@ void MYBPF_LoaderUnloadAll(MYBPF_RUNTIME_S *runtime);
 MYBPF_LOADER_NODE_S * MYBPF_LoaderGet(MYBPF_RUNTIME_S *runtime, char *instance);
 MYBPF_LOADER_NODE_S * MYBPF_LoaderGetNext(MYBPF_RUNTIME_S *runtime, INOUT void **iter);
 void MYBPF_LoaderShowMaps(MYBPF_RUNTIME_S *r, PF_PRINT_FUNC print_func);
-UINT64 MYBPF_CallAgent(UINT64 p1, UINT64 p2, UINT64 p3, UINT64 p4, UINT64 p5, UINT64 fid, void *ud);
 
 #ifdef __cplusplus
 }

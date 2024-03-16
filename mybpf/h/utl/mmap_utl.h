@@ -11,7 +11,7 @@ extern "C"
 #endif
 
 void * MMAP_Create(int size);
-void * MMAP_Map(void *buf, int buf_size, int map_size);
+void * MMAP_Map(void *buf, int buf_size, int head_size);
 void MMAP_Unmap(void *buf, int total_size);
 int MMAP_MakeExe(void *buf, int size);
 void * MMAP_MapExe(void *buf, int size);

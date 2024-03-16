@@ -5,7 +5,6 @@
 ================================================================*/
 #ifndef _MYBPF_SIMPLE_H
 #define _MYBPF_SIMPLE_H
-#include "utl/file_utl.h"
 #include "utl/mybpf_utl.h"
 #include "utl/vbuf_utl.h"
 #include "utl/umap_def.h"
@@ -27,6 +26,7 @@ typedef struct {
 
     UINT with_func_name: 1; 
     UINT with_map_name: 1; 
+    UINT keep_text_pos: 1; 
 
     UINT translate_mode_aot: 1; 
     UINT aot_map_index_to_ptr: 1; 
@@ -35,6 +35,9 @@ typedef struct {
     UINT helper_mode: 4;
 
     MYBPF_SIMPLE_CONVERT_CALL_MAP_S *helper_map; 
+
+    U32 app_ver;
+    U8 aot_mode;
 }MYBPF_SIMPLE_CONVERT_PARAM_S;
 
 typedef struct {
@@ -57,9 +60,10 @@ int MYBPF_SIMPLE_BuildInfo(FILE_MEM_S *m, OUT char *buf, int buf_size);
 int MYBPF_SIMPLE_BuildFileInfo(char *file, OUT char *buf, int buf_size);
 
 BOOL_T MYBPF_SIMPLE_IsSpfFile(char *simple_file);
-FILE_MEM_S * MYBPF_SIMPLE_OpenSpf(char *file);
-FILE_MEM_S * MYBPF_SIMPLE_Elf2Mem(char *elf_file);
-FILE_MEM_S * MYBPF_SIMPLE_OpenFile(char *file);
+
+int MYBPF_SIMPLE_OpenSpf(char *file, OUT FILE_MEM_S *m);
+int MYBPF_SIMPLE_OpenFile(char *file, OUT FILE_MEM_S *m);
+int MYBPF_SIMPLE_OpenFileRaw(char *file, OUT FILE_MEM_S *m);
 void MYBPF_SIMPLE_Close(FILE_MEM_S *m);
 
 int MYBPF_SIMPLE_WriteFile(FILE_MEM_S *m, char *filename);
@@ -69,6 +73,7 @@ int MYBPF_SIMPLE_GetMapsSection(FILE_MEM_S *m, OUT MYBPF_MAPS_SEC_S *map_sec);
 void * MYBPF_SIMPLE_GetMap(FILE_MEM_S *m, int index);
 char * MYBPF_SIMPLE_GetMapName(FILE_MEM_S *m, int id);
 int MYBPF_SIMPLE_GetMapIDByName(FILE_MEM_S *m, char *name);
+U32 MYBPF_SIMPLE_GetAotMode(FILE_MEM_S *m);
 int MYBPF_SIMPLE_GetJitArch(FILE_MEM_S *m);
 
 int MYBPF_SIMPLE_GetTypeSecCount(FILE_MEM_S *m, int type);

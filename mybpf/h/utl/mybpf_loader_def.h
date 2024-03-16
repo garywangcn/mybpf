@@ -17,7 +17,7 @@ extern "C"
 typedef struct {
     char *instance; 
     char *filename; 
-    FILE_MEM_S *simple_mem;
+    FILE_MEM_S simple_mem;
     UINT flag;
 }MYBPF_LOADER_PARAM_S;
 

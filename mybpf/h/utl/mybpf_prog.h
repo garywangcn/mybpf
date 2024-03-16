@@ -9,23 +9,12 @@
 #include "utl/mybpf_utl.h"
 #include "utl/mybpf_runtime.h"
 #include "utl/mybpf_vm.h"
+#include "utl/mybpf_prog_def.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-#define MYBPF_PROG_MAX_MAPS	32
-
-typedef struct {
-    RCU_NODE_S rcu_node;
-    char sec_name[128];
-    char prog_name[64];
-    void *loader_node;
-    UINT attached; 
-    int insn_len; 
-    void *insn; 
-}MYBPF_PROG_NODE_S;
 
 typedef struct xdp_buff {
 	void *data;

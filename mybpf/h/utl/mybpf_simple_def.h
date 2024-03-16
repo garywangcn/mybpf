@@ -25,10 +25,15 @@ enum {
 };
 
 typedef struct {
-    UINT magic;
-    UCHAR ver;       
-    UCHAR reserved[3];
-    UINT totle_size;
+    U32 magic;
+    U8 ver;       
+    U8 aot_mode;
+    U16 app_ver;  
+
+    U32 totle_size;
+    U32 utc_sec;  
+
+    U8 reserved2[16];
 }MYBPF_SIMPLE_HDR_S;
 
 typedef struct {

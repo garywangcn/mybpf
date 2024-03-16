@@ -22,6 +22,16 @@ typedef struct {
     void *agent_func;
 }MYBPF_AOT_PROG_CTX_S;
 
+typedef struct {
+    RCU_NODE_S rcu_node;
+    char sec_name[128];
+    char prog_name[64];
+    void *loader_node;
+    UINT attached; 
+    int insn_len; 
+    void *insn; 
+}MYBPF_PROG_NODE_S;
+
 #ifdef __cplusplus
 }
 #endif

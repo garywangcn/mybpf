@@ -6,8 +6,6 @@
 #ifndef _MYBPF_JIT_H
 #define _MYBPF_JIT_H
 
-#include "mybpf_jit_def.h"
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -67,10 +65,6 @@ typedef struct {
     int tail_call_func; 
     PF_MYBPF_JIT_GET_HELPER_BY_ID get_helper_by_id;
 }MYBPF_JIT_CFG_S;
-
-int MYBPF_JIT_GetJitTypeByName(char *jit_arch_name);
-int MYBPF_JIT_LocalArch(void);
-char * MYBPF_JIT_GetArchName(int arch_type);
 
 int MYBPF_Jit(MYBPF_JIT_INSN_S *jit_insn, MYBPF_JIT_CFG_S *cfg);
 

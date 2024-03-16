@@ -4,6 +4,7 @@
 * Description:
 ******************************************************************************/
 #include "bs.h"
+#include "utl/file_func.h"
 #include "utl/file_utl.h"
 #include "utl/vbuf_utl.h"
 
@@ -19,7 +20,7 @@ int VBUF_ReadFP(void *fp, OUT VBUF_S *vbuf)
     S64 filesize;
     void *data;
 
-    filesize = FILE_GetFileSize(fp);
+    filesize = FILE_GetFpSize(fp);
     if (filesize < 0) {
         RETURN(BS_ERR);
     }

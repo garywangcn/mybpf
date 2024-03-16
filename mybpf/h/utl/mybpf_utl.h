@@ -11,6 +11,10 @@ extern "C"
 #endif
 
 typedef struct {
+    U64 p[5];
+}MYBPF_PARAM_S;
+
+typedef struct {
     int sec_id;        
     int map_def_size;
     int map_count;

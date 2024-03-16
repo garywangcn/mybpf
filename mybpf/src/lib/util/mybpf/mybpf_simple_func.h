@@ -10,6 +10,12 @@
 extern "C" {
 #endif
 
+
+typedef struct {
+    int helpers[1024];
+    int count;
+}MYBPF_HELPER_DEPENDS_S;
+
 static inline MYBPF_SIMPLE_COMMON_HDR_S * mybpf_simple_get_next_sec(FILE_MEM_S *m, void *cur_hdr)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *common_hdr = cur_hdr;
@@ -60,7 +66,7 @@ static inline void * mybpf_simple_get_type_sec(FILE_MEM_S *m, int type, int id)
     return NULL;
 }
 
-static int mybpf_simple_get_sec_data_size(void *hdr)
+static inline int mybpf_simple_get_sec_data_size(void *hdr)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *sec = hdr;
     int size;
@@ -76,7 +82,7 @@ static int mybpf_simple_get_sec_data_size(void *hdr)
     return size;
 }
 
-static int mybpf_simple_get_map_def_size(MYBPF_SIMPLE_MAP_HDR_S *hdr)
+static inline int mybpf_simple_get_map_def_size(MYBPF_SIMPLE_MAP_HDR_S *hdr)
 {
     U32 map_size;
 
@@ -89,7 +95,7 @@ static int mybpf_simple_get_map_def_size(MYBPF_SIMPLE_MAP_HDR_S *hdr)
     return map_size / hdr->map_count;
 }
 
-static void * mybpf_simple_get_sec_data(void *hdr)
+static inline void * mybpf_simple_get_sec_data(void *hdr)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *sec = hdr;
     char *d;
@@ -108,7 +114,7 @@ static void * mybpf_simple_get_sec_data(void *hdr)
     return d;
 }
 
-static char * mybpf_simple_get_sec_name(void *hdr)
+static inline char * mybpf_simple_get_sec_name(void *hdr)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *sec = hdr;
 
@@ -117,6 +123,16 @@ static char * mybpf_simple_get_sec_name(void *hdr)
     }
     
     return (void*)(sec + 1);
+}
+
+static inline MYBPF_SIMPLE_PROG_OFF_S * mybpf_simple_get_prog_offs(FILE_MEM_S *m)
+{
+    MYBPF_SIMPLE_PROG_INFO_HDR_S *hdr = mybpf_simple_get_type_sec(m, MYBPF_SIMPLE_SEC_TYPE_PROG_INFO, 0);
+    if (! hdr) {
+        return NULL;
+    }
+
+    return mybpf_simple_get_sec_data(hdr);
 }
 
 static inline int _mybpf_simple_get_prog_names(FILE_MEM_S *m, int id, OUT char **sec_name, OUT char **func_name)
@@ -186,6 +202,18 @@ static inline int mybpf_simple_get_progs_size(FILE_MEM_S *m)
     return mybpf_simple_get_sec_data_size(sec);
 }
 
+static inline int mybpf_simple_get_progs_count(FILE_MEM_S *m)
+{
+    MYBPF_SIMPLE_PROG_INFO_HDR_S *hdr;
+
+    hdr = mybpf_simple_get_type_sec(m, MYBPF_SIMPLE_SEC_TYPE_PROG_INFO, 0);
+    if (! hdr) {
+        return 0;
+    }
+
+    return ntohs(hdr->func_count);
+}
+
 static inline void * mybpf_simple_get_progs(FILE_MEM_S *m)
 {
     void *sec = mybpf_simple_get_type_sec(m, MYBPF_SIMPLE_SEC_TYPE_PROG, 0);
@@ -225,6 +253,32 @@ static inline char * mybpf_simple_get_map_name(FILE_MEM_S *m, int id)
     return map_name;
 }
 
+static inline int mybpf_simple_get_maps_section(FILE_MEM_S *m, OUT MYBPF_MAPS_SEC_S *map_sec)
+{
+    MYBPF_SIMPLE_MAP_HDR_S *hdr;
+
+    map_sec->sec_id = 0;
+
+    hdr = mybpf_simple_get_type_sec(m, MYBPF_SIMPLE_SEC_TYPE_MAP, 0);
+    if (! hdr) {
+        map_sec->map_count = 0;
+        map_sec->map_def_size = 0;
+        map_sec->maps = NULL;
+        return 0;
+    }
+
+    map_sec->map_count = hdr->map_count;
+    map_sec->map_def_size = mybpf_simple_get_map_def_size(hdr);
+    map_sec->maps = mybpf_simple_get_sec_data(hdr);
+
+    return 0;
+}
+
+void _MYBPF_SIMPLE_BuildReloMaps(ELF_GLOBAL_DATA_S *data, MYBPF_MAPS_SEC_S *map_sec, OUT MYBPF_RELO_MAP_S *maps_relo);
+int _MYBPF_SIMPLE_AddHelperDepends(void *insts, int insn_index, void *ud);
+int _MYBPF_SIMPLE_DropSubProgInfo(INOUT ELF_PROG_INFO_S *progs, int count);
+void _MYBPF_SIMPLE_DropProgName(INOUT ELF_PROG_INFO_S *progs, int count);
+int _MYBPF_SIMPLE_GetHelperOffset(int imm, void *ud);
 
 #ifdef __cplusplus
 }

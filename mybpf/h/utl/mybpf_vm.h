@@ -7,15 +7,12 @@
 #define _MYBPF_VM_H
 
 #include "utl/bpf_helper_utl.h"
+#include "utl/mybpf_utl.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-typedef struct {
-    U64 p[5];
-}MYBPF_PARAM_S;
 
 typedef struct {
     int tail_call_index;
