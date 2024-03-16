@@ -26,4 +26,4 @@ U64 MYBPF_RunBareFile(char *file, const void **tmp_helpers, MYBPF_PARAM_S *p);
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_BARE_H_
+#endif 

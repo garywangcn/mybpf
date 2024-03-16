@@ -37,7 +37,7 @@ static int _mybpf_bare_get_bss_size(FILE_MEM_S *m, MYBPF_SIMPLE_CONVERT_PARAM_S 
         return 0;
     }
 
-    /* 字节码格式不支持map */
+    
     if (! p->jit_arch) {
         RETURNI(BS_NOT_SUPPORT, "Not support map");
     }
@@ -46,7 +46,7 @@ static int _mybpf_bare_get_bss_size(FILE_MEM_S *m, MYBPF_SIMPLE_CONVERT_PARAM_S 
         RETURNI(BS_NOT_SUPPORT, "Not support many map");
     }
 
-    /* 支持持bss */
+    
     flags = MYBPF_SIMPLE_GetMapFlags(m);
     if ((flags & MYBPF_SIMPLE_MAP_FLAG_BSS) == 0) {
         RETURNI(BS_NOT_SUPPORT, "Not support !bss map");
@@ -89,7 +89,7 @@ static int _mybpf_bare_write_depends(VBUF_S *vbuf, MYBPF_HELPER_DEPENDS_S *depen
     return 0;
 }
 
-/* 砍掉用不到的部分 */
+
 static int _mybpf_bare_drop_no_used(VBUF_S *vbuf, FILE_MEM_S *m)
 {
     int len;
@@ -101,11 +101,11 @@ static int _mybpf_bare_drop_no_used(VBUF_S *vbuf, FILE_MEM_S *m)
         RETURNI(BS_OUT_OF_RANGE, "Can't get progs");
     }
 
-    /* 计算progs前面的buf大小 */
+    
     len = (char*)progs - (char*)m->data;
 
-    VBUF_EarseHead(vbuf, len); /* 砍掉prog前面的数据 */
-    VBUF_CutTail(vbuf, (m->len - len) - progs_size); /* 砍掉prog后面的数据 */
+    VBUF_EarseHead(vbuf, len); 
+    VBUF_CutTail(vbuf, (m->len - len) - progs_size); 
 
     return 0;
 }
@@ -159,7 +159,7 @@ static int _mybpf_bare_convert_file(char *src_filename, char *dst_filename, MYBP
 }
 
 
-/* 转换文件为bare file: 整个文件只有header + code部分 */
+
 int MYBPF_BARE_Convert2File(char *src_filename, char *dst_filename, MYBPF_SIMPLE_CONVERT_PARAM_S *p)
 {
     VBUF_S vbuf;

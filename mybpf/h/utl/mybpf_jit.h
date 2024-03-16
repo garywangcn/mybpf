@@ -38,12 +38,6 @@ enum {
     MYBPF_JIT_HELPER_MODE_ID = 0,
 
     
-    MYBPF_JIT_HELPER_MODE_RAW,
-
-    
-    MYBPF_JIT_HELPER_MODE_AGENT,
-
-    
     MYBPF_JIT_HELPER_MODE_ARRAY, 
 
     MYBPF_JIT_HELPER_MODE_MAX, 
@@ -54,11 +48,15 @@ enum {
     MYBPF_TRANS_MODE_AOT
 };
 
+enum {
+    MYBPF_AOT_MODE_ARRAY = 0,
+    MYBPF_AOT_MODE_RARRAY
+};
+
 typedef struct {
     UINT jit_arch: 8;
     UINT helper_mode: 4; 
     UINT translate_mode_aot: 1;  
-    UINT aot_map_index_to_ptr: 1; 
     UINT mmap_exe: 1; 
     UINT param_6th: 1; 
 

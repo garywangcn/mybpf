@@ -19,6 +19,7 @@ typedef struct {
     char *filename; 
     FILE_MEM_S simple_mem;
     UINT flag;
+    const void **tmp_helpers;
 }MYBPF_LOADER_PARAM_S;
 
 #define MYBPF_LOADER_MAX_MAPS 32

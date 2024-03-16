@@ -16,21 +16,21 @@ static inline MYBPF_SIMPLE_COMMON_HDR_S * mybpf_simple_get_next_sec(FILE_MEM_S *
     UCHAR *next;
 
     if (! cur_hdr) {
-        /* 获取第一个sec */
+        
         MYBPF_SIMPLE_HDR_S *hdr = (void*)m->data;
         return (void*)(hdr + 1);
     }
 
     next = (void*)((UCHAR*)common_hdr + ntohl(common_hdr->sec_size));
     if (next >= (m->data + m->len)) {
-        /* 已经是最后一个sec了 */
+        
         return NULL;
     }
 
     return (void*)next;
 }
 
-/* 获取指定type的下一个sec */
+
 static inline void * mybpf_simple_get_next_type_sec(FILE_MEM_S *m, int type, void *cur_hdr)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *common_hdr = cur_hdr;
@@ -44,7 +44,7 @@ static inline void * mybpf_simple_get_next_type_sec(FILE_MEM_S *m, int type, voi
     return NULL;
 }
 
-/* 获取指定type+id的sec */
+
 static inline void * mybpf_simple_get_type_sec(FILE_MEM_S *m, int type, int id)
 {
     MYBPF_SIMPLE_COMMON_HDR_S *common_hdr = NULL;
@@ -277,4 +277,4 @@ int _MYBPF_SIMPLE_GetHelperOffset(int imm, void *ud);
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_SIMPLE_FUNC_H_
+#endif 

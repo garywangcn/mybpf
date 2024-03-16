@@ -18,27 +18,25 @@ extern "C"
 #define MYBPF_SIMPLE_CONVERT_FLAG_HAVE_NAME 0x1 
 
 typedef struct {
-    int imm; /* 0表示无效 */
+    int imm; 
     int new_imm;
 }MYBPF_SIMPLE_CONVERT_CALL_MAP_S;
 
 typedef struct {
-    int jit_arch; /* 0表示不做jit/aot */
-
-    UINT with_func_name: 1; /* 携带funcname */
-    UINT with_map_name: 1; /* 携带mapname */
-    UINT keep_text_pos: 1; /* text不要后置 */
-
-    UINT translate_mode_aot: 1; /* 0: jit mode; 1: aot mode */
-    UINT aot_map_index_to_ptr: 1; /* 是否在调用helper <=3 时, 依据ctx将map index转换为ptr. */
-    UINT param_6th: 1; /* 是否使用第6个参数传递ctx */
+    int jit_arch; 
 
     UINT helper_mode: 4;
 
-    MYBPF_SIMPLE_CONVERT_CALL_MAP_S *helper_map; /* 用于fix ext calls的映射表, 对ext call imm进行转换 */
+    UINT with_func_name: 1; 
+    UINT with_map_name: 1; 
+    UINT keep_text_pos: 1; 
+
+    UINT translate_mode_aot: 1; 
+    UINT param_6th: 1; 
+
+    MYBPF_SIMPLE_CONVERT_CALL_MAP_S *helper_map; 
 
     U32 app_ver;
-    U8 aot_mode;
 }MYBPF_SIMPLE_CONVERT_PARAM_S;
 
 typedef struct {
@@ -74,7 +72,6 @@ int MYBPF_SIMPLE_GetMapsSection(FILE_MEM_S *m, OUT MYBPF_MAPS_SEC_S *map_sec);
 void * MYBPF_SIMPLE_GetMap(FILE_MEM_S *m, int index);
 char * MYBPF_SIMPLE_GetMapName(FILE_MEM_S *m, int id);
 int MYBPF_SIMPLE_GetMapIDByName(FILE_MEM_S *m, char *name);
-U32 MYBPF_SIMPLE_GetAotMode(FILE_MEM_S *m);
 int MYBPF_SIMPLE_GetJitArch(FILE_MEM_S *m);
 
 int MYBPF_SIMPLE_GetTypeSecCount(FILE_MEM_S *m, int type);
@@ -104,4 +101,4 @@ UINT MYBPF_SIMPLE_GetSimpleSizeByHdr(void *hdr);
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_SIMPLE_H_
+#endif 

@@ -15,15 +15,15 @@ extern "C" {
 
 typedef struct {
     U32 magic;
-    U32 size; /* 文件大小,包含此头部 */
+    U32 size; 
 
     U8 ver;
     U8 jit_arch;
-    U16 bss_size; /*MYBPF_BARE_BSS_BLOCK_SIZE 字节元组个数,所以最多MYBPF_BARE_BSS_BLOCK_SIZE* 64k*/
-    U16 app_ver;  /* APP版本号 */
-    U16 depends_count; /* depend helper count */
+    U16 bss_size; 
+    U16 app_ver;  
+    U16 depends_count; 
 
-    U32 utc_sec;      /* 生成时间, 自utc以来的秒数 */
+    U32 utc_sec;      
     U8 reserved2[12];
 }MYBPF_BARE_HDR_S;
 
@@ -36,4 +36,4 @@ typedef struct {
 #ifdef __cplusplus
 }
 #endif
-#endif //MYBPF_BARE_DEF_H_
+#endif 

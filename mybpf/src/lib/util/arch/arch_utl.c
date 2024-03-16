@@ -9,7 +9,7 @@
 static char * g_arch_name[] = {
     [ARCH_TYPE_NONE] = "none",
     [ARCH_TYPE_ARM64] = "arm64",
-    [ARCH_TYPE_X86_64] = "x86_64",
+    [ARCH_TYPE_X86_64] = "x64",
 };
 
 

@@ -5,10 +5,6 @@
 
 static MYBPF_INSN_S g_bpfasm_insts[] = { 
 
-    BPF_LDX_MEM(BPF_DW, BPF_R1, BPF_R1, 0), 
-    BPF_LDX_MEM(BPF_B, BPF_R0, BPF_R1, 5), 
-    BPF_EXIT_INSN(), 
-
     BPF_MOV64_IMM(BPF_R3, 0), 
     BPF_STX_MEM(BPF_W, BPF_R2, BPF_R3, 0), 
     BPF_JMP_A(18), 
@@ -265,7 +261,7 @@ static MYBPF_INSN_S g_bpfasm_insts[] = {
     BPF_MOV64_IMM(BPF_R2, 0), 
     BPF_MOV64_IMM(BPF_R3, 0), 
     BPF_MOV64_IMM(BPF_R4, 0), 
-    BPF_MOV64_IMM(BPF_R5, 160), 
+    BPF_MOV64_IMM(BPF_R5, 153), 
     BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, 2000000), 
     BPF_JMP_A(31), 
     BPF_LDX_MEM(BPF_B, BPF_R4, BPF_R1, 5), 
@@ -476,7 +472,7 @@ static MYBPF_INSN_S g_bpfasm_insts[] = {
     BPF_MOV64_IMM(BPF_R2, 0), 
     BPF_MOV64_IMM(BPF_R3, 0), 
     BPF_MOV64_IMM(BPF_R4, 0), 
-    BPF_MOV64_IMM(BPF_R5, 160), 
+    BPF_MOV64_IMM(BPF_R5, 153), 
     BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, 2000000), 
     BPF_MOV64_REG(BPF_R0, BPF_R7), 
     BPF_EXIT_INSN(), 
@@ -1636,7 +1632,7 @@ static MYBPF_INSN_S g_bpfasm_insts[] = {
     BPF_MOV64_IMM(BPF_R2, 0), 
     BPF_MOV64_IMM(BPF_R3, 0), 
     BPF_MOV64_IMM(BPF_R4, 0), 
-    BPF_MOV64_IMM(BPF_R5, 375), 
+    BPF_MOV64_IMM(BPF_R5, 368), 
     BPF_RAW_INSN(BPF_JMP | BPF_CALL, 0, 0, 0, 2000000), 
     BPF_MOV64_REG(BPF_R1, BPF_R10), 
     BPF_ALU64_IMM(BPF_ADD, BPF_R1, -24), 
@@ -1665,7 +1661,7 @@ static MYBPF_INSN_S g_bpfasm_insts[] = {
     BPF_EXIT_INSN(), 
 }; 
 
-U64 MYBPF_SIMPLE_GetAotMode(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5) 
+U64 MYBPF_SIMPLE_GetMapsSection(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5) 
 { 
     MYBPF_PARAM_S p; 
     MYBPF_CTX_S ctx = {0}; 
@@ -1679,20 +1675,6 @@ U64 MYBPF_SIMPLE_GetAotMode(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
     return ctx.bpf_ret; 
 } 
 
-U64 MYBPF_SIMPLE_GetMapsSection(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5) 
-{ 
-    MYBPF_PARAM_S p; 
-    MYBPF_CTX_S ctx = {0}; 
-
-    ctx.begin_addr = g_bpfasm_insts; 
-    ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 24; 
-    p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
-    int ret = MYBPF_DefultRun(&ctx, &p); 
-    if (ret < 0) return ret; 
-    return ctx.bpf_ret; 
-} 
-
 U64 MYBPF_SIMPLE_GetMapName(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5) 
 { 
     MYBPF_PARAM_S p; 
@@ -1700,7 +1682,7 @@ U64 MYBPF_SIMPLE_GetMapName(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 408; 
+    ctx.insts = (char*)g_bpfasm_insts + 384; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1714,7 +1696,7 @@ U64 MYBPF_SIMPLE_GetJitArch(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 872; 
+    ctx.insts = (char*)g_bpfasm_insts + 848; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1728,7 +1710,7 @@ U64 MYBPF_SIMPLE_GetTypeSecCount(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1024; 
+    ctx.insts = (char*)g_bpfasm_insts + 1000; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1742,7 +1724,7 @@ U64 MYBPF_SIMPLE_GetSec(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1184; 
+    ctx.insts = (char*)g_bpfasm_insts + 1160; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1756,7 +1738,7 @@ U64 MYBPF_SIMPLE_GetSecByName(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1432; 
+    ctx.insts = (char*)g_bpfasm_insts + 1408; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1770,7 +1752,7 @@ U64 MYBPF_SIMPLE_GetSecName(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1728; 
+    ctx.insts = (char*)g_bpfasm_insts + 1704; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1784,7 +1766,7 @@ U64 MYBPF_SIMPLE_GetSecDataSize(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1792; 
+    ctx.insts = (char*)g_bpfasm_insts + 1768; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1798,7 +1780,7 @@ U64 MYBPF_SIMPLE_GetSecData(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1856; 
+    ctx.insts = (char*)g_bpfasm_insts + 1832; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1812,7 +1794,7 @@ U64 MYBPF_SIMPLE_CopySecData(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 1960; 
+    ctx.insts = (char*)g_bpfasm_insts + 1936; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1826,7 +1808,7 @@ U64 MYBPF_SIMPLE_DupSecData(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 2312; 
+    ctx.insts = (char*)g_bpfasm_insts + 2288; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1840,7 +1822,7 @@ U64 MYBPF_SIMPLE_GetProgsCount(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 2680; 
+    ctx.insts = (char*)g_bpfasm_insts + 2656; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1854,7 +1836,7 @@ U64 MYBPF_SIMPLE_GetProgsSize(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 2840; 
+    ctx.insts = (char*)g_bpfasm_insts + 2816; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1868,7 +1850,7 @@ U64 MYBPF_SIMPLE_GetProgs(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 3024; 
+    ctx.insts = (char*)g_bpfasm_insts + 3000; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1882,7 +1864,7 @@ U64 MYBPF_SIMPLE_CopyPorgs(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 3256; 
+    ctx.insts = (char*)g_bpfasm_insts + 3232; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1896,7 +1878,7 @@ U64 MYBPF_SIMPLE_DupProgs(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 3728; 
+    ctx.insts = (char*)g_bpfasm_insts + 3704; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1910,7 +1892,7 @@ U64 MYBPF_SIMPLE_GetProgsInfo(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 4216; 
+    ctx.insts = (char*)g_bpfasm_insts + 4192; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1924,7 +1906,7 @@ U64 MYBPF_SIMPLE_GetMainProgsCount(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 6288; 
+    ctx.insts = (char*)g_bpfasm_insts + 6264; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1938,7 +1920,7 @@ U64 MYBPF_SIMPLE_GetMainProgInfo(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 7408; 
+    ctx.insts = (char*)g_bpfasm_insts + 7384; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1952,7 +1934,7 @@ U64 MYBPF_SIMPLE_GetMainProgsInfo(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 9696; 
+    ctx.insts = (char*)g_bpfasm_insts + 9672; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1966,7 +1948,7 @@ U64 MYBPF_SIMPLE_GetSimpleSizeByHdr(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 11888; 
+    ctx.insts = (char*)g_bpfasm_insts + 11864; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1980,7 +1962,7 @@ U64 MYBPF_SIMPLE_OpenSpf(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 11952; 
+    ctx.insts = (char*)g_bpfasm_insts + 11928; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -1994,7 +1976,7 @@ U64 MYBPF_SIMPLE_Close(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 12712; 
+    ctx.insts = (char*)g_bpfasm_insts + 12688; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 
@@ -2008,7 +1990,7 @@ U64 MYBPF_SIMPLE_CopyDepends(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5)
 
     ctx.begin_addr = g_bpfasm_insts; 
     ctx.end_addr = (char*)(void*)g_bpfasm_insts + sizeof(g_bpfasm_insts); 
-    ctx.insts = (char*)g_bpfasm_insts + 12784; 
+    ctx.insts = (char*)g_bpfasm_insts + 12760; 
     p.p[0]=p1; p.p[1]=p2; p.p[2]=p3; p.p[3]=p4; p.p[4]=p5; 
     int ret = MYBPF_DefultRun(&ctx, &p); 
     if (ret < 0) return ret; 

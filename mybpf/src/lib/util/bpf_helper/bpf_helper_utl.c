@@ -48,7 +48,7 @@ U64 __bpfktime_get_ns(void)
     return TM_NsFromInit();
 }
 
-/* macos-arm系统调用约定和arm标准不一致, 需要特殊处理 */
+
 #if ((defined IN_MAC) && (defined __ARM__))
 long __bpftrace_printk(const char *fmt, U32 fmt_size, void *p1, void *p2, void *p3)
 {
@@ -325,7 +325,7 @@ static void ulc_err_code_set(int err_code, char *info, const char *file_name, co
     ErrCode_Set(err_code, info, file_name, func_name, line);
 }
 
-/* macos-arm系统调用约定和arm标准不一致, 需要特殊处理 */
+
 #if ((defined IN_MAC) && (defined __ARM__))
 static void ulc_err_info_set(const char *fmt, void *p1, void *p2, void *p3, void *p4)
 {
@@ -399,7 +399,7 @@ int ulc_get_local_arch(void)
     return ARCH_LocalArch();
 }
 
-/* base helper. 和linux内置定义helper一一对应,请不要注册和linux不一致的helper */
+
 static const void * g_bpf_base_helpers[BPF_BASE_HELPER_END] = {
     [0] = NULL,
     [1] = UMAP_LookupElem,
@@ -429,9 +429,9 @@ static const void * g_bpf_base_helpers[BPF_BASE_HELPER_END] = {
     [165] = __bpf_snprintf,
 };
 
-/* sys helper. linux系统定义之外的统一定义, 请不要随意定义 */
+
 static const void * g_bpf_sys_helpers[BPF_SYS_HELPER_COUNT] = {
-    [0] = ulc_sys_malloc, /* 1000000 */
+    [0] = ulc_sys_malloc, 
     [1] = ulc_sys_calloc,
     [2] = ulc_sys_free,
     [3] = ulc_sys_rcu_malloc,
@@ -463,9 +463,9 @@ static const void * g_bpf_sys_helpers[BPF_SYS_HELPER_COUNT] = {
     [511] = ulc_get_user_helpers,
 };
 
-/* user helper. 没有任何预规定，用户可以定义 */
+
 static const void * g_bpf_user_helpers[BPF_USER_HELPER_COUNT] = {
-    [0] = ulc_err_code_set, /* 2000000 */
+    [0] = ulc_err_code_set, 
     [1] = ulc_err_info_set,
     [2] = ulc_call_back,
 };
@@ -500,7 +500,7 @@ const void ** BpfHelper_UserHelper(void)
     return (const void **)g_bpf_user_helpers;
 }
 
-/* 根据id获取helper函数指针 */
+
 void * BpfHelper_GetFunc(unsigned int id)
 {
     if (id < BPF_BASE_HELPER_END) {

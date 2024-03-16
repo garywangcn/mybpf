@@ -19,7 +19,6 @@ typedef struct {
     void *maps; 
     void **global_map_data;
     void *loader_node;
-    void *agent_func;
 }MYBPF_AOT_PROG_CTX_S;
 
 typedef struct {

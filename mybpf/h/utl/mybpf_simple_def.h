@@ -27,7 +27,7 @@ enum {
 typedef struct {
     U32 magic;
     U8 ver;       
-    U8 aot_mode;
+    U8 reserved;
     U16 app_ver;  
 
     U32 totle_size;
