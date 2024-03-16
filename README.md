@@ -15,7 +15,7 @@ mybpf的特点
 # 架构
 mybpf主要分为两部分： 编译工具 + runtime。  
 编译工具部分支持JIT、AOT、解释器、dump、verifier 等功能  
-runtime: 运行ebpf文件  
+runtime负责运行ebpf文件  
 
 # AOT格式
 AOT当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
