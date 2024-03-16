@@ -174,7 +174,7 @@ cp ../../../example/ulc/test/*.o ./
 
 # 编写APP 示例
 cd example/ulc/test  
-编辑 hello_world.c, 输入以下内容:  
+创建 hello_world.c, 输入以下内容:  
 ```
 #include "utl/ulc_user.h"
 
