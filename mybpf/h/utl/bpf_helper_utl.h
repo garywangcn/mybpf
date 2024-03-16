@@ -28,6 +28,8 @@ extern "C"
 typedef U64 (*PF_BPF_HELPER_FUNC)(U64 p1, U64 p2, U64 p3, U64 p4, U64 p5);
 
 void * BpfHelper_GetFunc(unsigned int id);
+void * BpfHelper_GetFuncExt(unsigned int id, const void **tmp_helpers);
+
 int BpfHelper_RegFunc(U32 id, void *func);
 const void ** BpfHelper_BaseHelper(void);
 const void ** BpfHelper_SysHelper(void);
@@ -42,4 +44,4 @@ const void ** BpfHelper_UserHelper(void);
 #ifdef __cplusplus
 }
 #endif
-#endif 
+#endif //BPF_HELPER_UTL_H_

@@ -9,6 +9,7 @@
 #include "utl/vbuf_utl.h"
 #include "utl/umap_def.h"
 #include "utl/mybpf_simple_def.h"
+#include "utl/mybpf_depend_def.h"
 #ifdef __cplusplus
 extern "C"
 {
@@ -17,24 +18,24 @@ extern "C"
 #define MYBPF_SIMPLE_CONVERT_FLAG_HAVE_NAME 0x1 
 
 typedef struct {
-    int imm; 
+    int imm; /* 0表示无效 */
     int new_imm;
 }MYBPF_SIMPLE_CONVERT_CALL_MAP_S;
 
 typedef struct {
-    int jit_arch; 
+    int jit_arch; /* 0表示不做jit/aot */
 
-    UINT with_func_name: 1; 
-    UINT with_map_name: 1; 
-    UINT keep_text_pos: 1; 
+    UINT with_func_name: 1; /* 携带funcname */
+    UINT with_map_name: 1; /* 携带mapname */
+    UINT keep_text_pos: 1; /* text不要后置 */
 
-    UINT translate_mode_aot: 1; 
-    UINT aot_map_index_to_ptr: 1; 
-    UINT param_6th: 1; 
+    UINT translate_mode_aot: 1; /* 0: jit mode; 1: aot mode */
+    UINT aot_map_index_to_ptr: 1; /* 是否在调用helper <=3 时, 依据ctx将map index转换为ptr. */
+    UINT param_6th: 1; /* 是否使用第6个参数传递ctx */
 
     UINT helper_mode: 4;
 
-    MYBPF_SIMPLE_CONVERT_CALL_MAP_S *helper_map; 
+    MYBPF_SIMPLE_CONVERT_CALL_MAP_S *helper_map; /* 用于fix ext calls的映射表, 对ext call imm进行转换 */
 
     U32 app_ver;
     U8 aot_mode;
@@ -96,10 +97,11 @@ int MYBPF_SIMPLE_GetMainProgsCount(FILE_MEM_S *m);
 int MYBPF_SIMPLE_GetMainProgInfo(FILE_MEM_S *m, int id, OUT ELF_PROG_INFO_S *off);
 int MYBPF_SIMPLE_GetMainProgsInfo(FILE_MEM_S *m, OUT ELF_PROG_INFO_S *progs, int max_prog_count);
 int MYBPF_SIMPLE_WalkProg(FILE_MEM_S *m, PF_ELF_WALK_PROG walk_func, void *ud);
+int MYBPF_SIMPLE_CopyDepends(FILE_MEM_S *m, OUT MYBPF_HELPER_DEPENDS_S *d, int max_count);
 
 UINT MYBPF_SIMPLE_GetSimpleSizeByHdr(void *hdr);
 
 #ifdef __cplusplus
 }
 #endif
-#endif 
+#endif //MYBPF_SIMPLE_H_

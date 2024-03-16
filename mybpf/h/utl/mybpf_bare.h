@@ -16,8 +16,8 @@ extern "C" {
 
 BOOL_T MYBPF_IsBareFile(char *filename);
 
-int MYBPF_LoadBareFile(char *file, OUT MYBPF_BARE_S *bare);
-int MYBPF_LoadBare(void *data, int len, OUT MYBPF_BARE_S *bare);
+int MYBPF_LoadBareFile(char *file, const void **tmp_helpers, OUT MYBPF_BARE_S *bare);
+int MYBPF_LoadBare(void *data, int len, const void **tmp_helpers, OUT MYBPF_BARE_S *bare);
 void MYBPF_UnloadBare(MYBPF_BARE_S *bare);
 
 U64 MYBPF_RunBare(MYBPF_BARE_S *bare, const void **tmp_helpers, MYBPF_PARAM_S *p);
@@ -26,4 +26,4 @@ U64 MYBPF_RunBareFile(char *file, const void **tmp_helpers, MYBPF_PARAM_S *p);
 #ifdef __cplusplus
 }
 #endif
-#endif 
+#endif //MYBPF_BARE_H_

@@ -37,7 +37,7 @@ static int _mybpf_bare_get_bss_size(FILE_MEM_S *m, MYBPF_SIMPLE_CONVERT_PARAM_S 
         return 0;
     }
 
-    
+    /* 字节码格式不支持map */
     if (! p->jit_arch) {
         RETURNI(BS_NOT_SUPPORT, "Not support map");
     }
@@ -46,7 +46,7 @@ static int _mybpf_bare_get_bss_size(FILE_MEM_S *m, MYBPF_SIMPLE_CONVERT_PARAM_S 
         RETURNI(BS_NOT_SUPPORT, "Not support many map");
     }
 
-    
+    /* 支持持bss */
     flags = MYBPF_SIMPLE_GetMapFlags(m);
     if ((flags & MYBPF_SIMPLE_MAP_FLAG_BSS) == 0) {
         RETURNI(BS_NOT_SUPPORT, "Not support !bss map");
@@ -60,62 +60,92 @@ static int _mybpf_bare_get_bss_size(FILE_MEM_S *m, MYBPF_SIMPLE_CONVERT_PARAM_S 
     return (map->size_value + (MYBPF_BARE_BSS_BLOCK_SIZE - 1)) / MYBPF_BARE_BSS_BLOCK_SIZE;
 }
 
-static inline int _mybpf_bare_add_hdr(VBUF_S *vbuf, MYBPF_SIMPLE_CONVERT_PARAM_S *p, int bss_size)
+static int _mybpf_bare_write_hdr(VBUF_S *vbuf, MYBPF_SIMPLE_CONVERT_PARAM_S *p,
+        int bss_size, int depend_count)
 {
-    MYBPF_BARE_HDR_S *hdr;
-    int ret;
+    MYBPF_BARE_HDR_S hdr = {0};
 
-    ret = VBUF_AddHead(vbuf, sizeof(MYBPF_BARE_HDR_S));
+    int len = VBUF_GetDataLength(vbuf) + sizeof(hdr);
+
+    hdr.magic = htonl(MYBPF_BARE_MAGIC);
+    hdr.size = htonl(len);
+    hdr.jit_arch = p->jit_arch;
+    hdr.bss_size = htons(bss_size);
+    hdr.app_ver = htons(p->app_ver);
+    hdr.depends_count = htons(depend_count);
+    hdr.utc_sec = TM_SecondsFromUTC();
+    hdr.utc_sec = htonl(hdr.utc_sec);
+
+    return VBUF_AddHeadBuf(vbuf, &hdr, sizeof(hdr));
+}
+
+static int _mybpf_bare_write_depends(VBUF_S *vbuf, MYBPF_HELPER_DEPENDS_S *depends)
+{
+    int ret = VBUF_AddHeadBuf(vbuf, depends->helpers, sizeof(int) * depends->count);
     if (ret < 0) {
-        RETURNI(BS_OUT_OF_RANGE, "Can't add head");
+        RETURNI(BS_ERR, "Expand vbuf error");
     }
 
-    hdr = VBUF_GetData(vbuf);
-    memset(hdr, 0, sizeof(*hdr));
+    return 0;
+}
 
-    int len = VBUF_GetDataLength(vbuf);
-    hdr->magic = htonl(MYBPF_BARE_MAGIC);
-    hdr->size = htonl(len);
-    hdr->jit_arch = p->jit_arch;
-    hdr->bss_size = htons(bss_size);
-    hdr->app_ver = htons(p->app_ver);
-    hdr->utc_sec = TM_SecondsFromUTC();
-    hdr->utc_sec = htonl(hdr->utc_sec);
+/* 砍掉用不到的部分 */
+static int _mybpf_bare_drop_no_used(VBUF_S *vbuf, FILE_MEM_S *m)
+{
+    int len;
+
+    void *progs = MYBPF_SIMPLE_GetProgs(m);
+    int progs_size = MYBPF_SIMPLE_GetProgsSize(m);
+
+    if (progs_size <= 0) {
+        RETURNI(BS_OUT_OF_RANGE, "Can't get progs");
+    }
+
+    /* 计算progs前面的buf大小 */
+    len = (char*)progs - (char*)m->data;
+
+    VBUF_EarseHead(vbuf, len); /* 砍掉prog前面的数据 */
+    VBUF_CutTail(vbuf, (m->len - len) - progs_size); /* 砍掉prog后面的数据 */
 
     return 0;
+}
+
+static int _mybpf_bare_convert_vbuf(MYBPF_SIMPLE_CONVERT_PARAM_S *p, INOUT VBUF_S *vbuf)
+{
+    int ret;
+    FILE_MEM_S m;
+    MYBPF_HELPER_DEPENDS_S depends;
+
+    m.data = VBUF_GetData(vbuf);
+    m.len = VBUF_GetDataLength(vbuf);
+
+    int bss_size = _mybpf_bare_get_bss_size(&m, p);
+    if (bss_size < 0) {
+        return bss_size;
+    }
+
+    ret = MYBPF_SIMPLE_CopyDepends(&m, &depends, ARRAY_SIZE(depends.helpers));
+    if (ret < 0) {
+        RETURNI(BS_OUT_OF_RANGE, "Can't get depends");
+    }
+
+    ret = _mybpf_bare_drop_no_used(vbuf, &m);
+    ret |= _mybpf_bare_write_depends(vbuf, &depends);
+    ret |= _mybpf_bare_write_hdr(vbuf, p, bss_size, depends.count);
+
+    return ret;
 }
 
 static int _mybpf_bare_convert_file(char *src_filename, char *dst_filename, MYBPF_SIMPLE_CONVERT_PARAM_S *p, OUT VBUF_S *vbuf)
 {
     int ret;
-    FILE_MEM_S m;
-    int len;
-    int bss_size;
 
     ret = MYBPF_SIMPLE_Convert2Buf(src_filename, p, vbuf);
     if (ret < 0) {
         return ret;
     }
 
-    m.data = VBUF_GetData(vbuf);
-    m.len = VBUF_GetDataLength(vbuf);
-
-    bss_size = _mybpf_bare_get_bss_size(&m, p);
-    if (bss_size < 0) {
-        return bss_size;
-    }
-
-    void *progs = MYBPF_SIMPLE_GetProgs(&m);
-    int progs_size = MYBPF_SIMPLE_GetProgsSize(&m);
-    if (progs_size <= 0) {
-        RETURNI(BS_OUT_OF_RANGE, "Can't get progs");
-    }
-
-    len = (char*)progs - (char*)m.data;
-    VBUF_EarseHead(vbuf, len);
-    VBUF_CutTail(vbuf, (m.len - len) - progs_size);
-
-    ret = _mybpf_bare_add_hdr(vbuf, p, bss_size);
+    ret = _mybpf_bare_convert_vbuf(p, vbuf);
     if (ret < 0) {
         return ret;
     }
@@ -129,7 +159,7 @@ static int _mybpf_bare_convert_file(char *src_filename, char *dst_filename, MYBP
 }
 
 
-
+/* 转换文件为bare file: 整个文件只有header + code部分 */
 int MYBPF_BARE_Convert2File(char *src_filename, char *dst_filename, MYBPF_SIMPLE_CONVERT_PARAM_S *p)
 {
     VBUF_S vbuf;
