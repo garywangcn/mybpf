@@ -41,12 +41,6 @@ Temp [3,000,000 - 4,000,000): 用户可自定义的临时Helper
 # 安全性
 mybpf的安全性依赖可选择开启的verifier。在解释、JIT、AOT之前，先对ebpf字节码进行安全性验证，验证通过后，再继续执行、JIT、AOT操作。  
 
-# SPF的支持
-SPF比BARE格式要复杂，其runtime也更为复杂，移植的代价也会更高一些(但依然比直接支持ELF文件的移植要简单)。  
-那么有没有更好的办法支持SPF呢。答案是肯定的。  
-首先，移植BARE格式的Runtime到目标系统上，然后再加载spf_loader.bare文件(不需要移植其Runtime)，它会初始化SPF环境，并接受SPF文件的进一步加载。这样，只需要一个极简单的Bare Runtime + spf的Bare文件即可支持SPF。  
-再进一步，还可以加载ebpf_loader.spf，进而支持在目标环境上直接解释、JIT运行ebpf文件。  
-
 # 热升级
 热升级分为几种情况：  
   1. APP的热升级：这是ebpf框架原生支持的，可以随时加载、卸载、替换ebpf文件到内核。同样，mybpf也可以很方便对APP进行加载、卸载和升级。但需要注意的是，如果使用了非base helper的危险性helper，如malloc的非托管内存，卸载APP之前需要考虑是否主动Free内存.  
