@@ -154,9 +154,6 @@ cd mybpf
 触发cmd执行: testcmd
 
 # 示例
-cd runtime/test  
-runbpf con bare -j -m 4 test_sub_prog.o  
-user_example test_sub_prog.o.bare  
 
 
 
