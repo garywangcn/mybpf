@@ -33,7 +33,7 @@ SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、d
 
 # Helper
 分为四种不同类型Helper： Base、Sys、User、Temp  
-Base (0-1,000,000) ：ebpf的官方Helper，如6号bpf_trace_printk。预留一百万个范围给官方helper的空间  
+Base (0-1,000,000) ：ebpf的官方Helper，如6号bpf_trace_printk。预留一百万个范围给官方helper  
 Sys [1,000,000 - 2,000,000)： 通用的系统helper，如malloc、free，strcpy等。这些helper需要小心使用  
 User [2,000,000 - 3,000,000):  用户可自定义的全局Helper  
 Temp [3,000,000 - 4,000,000): 用户可自定义的临时Helper  
