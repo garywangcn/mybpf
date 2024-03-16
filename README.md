@@ -174,18 +174,18 @@ cp ../../../example/ulc/test/*.o ./
 
 # 编写APP 示例
 cd example/ulc/test  
-编辑 my_test.c, 输入以下内容:  
+编辑 hello_world.c, 输入以下内容:  
 ```
 #include "utl/ulc_user.h"
 
 SEC("tcmd/hello_test")
 int main()
 {
-    printf("Test OK \n");
+    printf("Hello world!! \n");
     return 0;
 }
 ```
 
-clang -O2 -I ../../../h -target bpf -c my_test.c  -D IN_ULC_USER  
+clang -O2 -I ../../../h -target bpf -c hello_world.c  -D IN_ULC_USER  
 
 
