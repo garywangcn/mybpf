@@ -181,7 +181,7 @@ static int _run(char *spf_loader)
     return 0;
 }
 
-/* bare_spf spf_loader.bare */
+
 int main(int argc, char **argv)
 {
     if (argc < 2) {

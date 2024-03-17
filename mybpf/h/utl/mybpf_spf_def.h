@@ -17,7 +17,7 @@ enum {
     SPF_CMD_UNLOAD,   
     SPF_CMD_UNLOAD_ALL,   
     SPF_CMD_RUN,
-    SPF_CMD_SHOW,     /* 显示instance */
+    SPF_CMD_SHOW,     
 };
 
 #ifdef __cplusplus
