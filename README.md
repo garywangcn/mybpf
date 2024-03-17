@@ -2,11 +2,11 @@
 mybpf是一个可以在用户态、嵌入式、内核ko中都可以运行的一套ebpf框架。支持多种方式运行ebpf：  
   1. 可以以字节码方式解释执行  
   2. 可以JIT成本机指令运行  
-  3. 可以编译为bare和SPF格式文件运行  
+  3. 可以编译为BARE和SPF格式文件运行  
 
 # 特点
 mybpf的特点  
-  1. bare和SPF格式文件非常小，占用空间小  
+  1. BARE和SPF格式文件非常小，占用空间小  
   2. mybpf runtime很轻量，最精简的bare runtime实现不到100行C代码  
   3. 支持Verifier、MAP、子函数调用、回调函数、全局变量  
   4. 内置部分系统helper，支持自定义helper  
@@ -19,8 +19,8 @@ runtime负责运行SPF/BARE文件
 # 文件格式
 当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
 支持输出两种不同的文件格式：SPF格式和BARE格式。  
-Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内部子函数、支持helper。不支持map。  
-SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
+BARE格式较简单，支持bss全局变量(不支持data, rodata),  支持内部子函数、支持helper。不支持map。  
+SPF格式比BARE格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
 
 SPF/BARE格式文件的好处:  
 1. 相比ELF, mybpf的文件格式非常简单，这使得处理这种格式的runtime代码非常少。  
@@ -31,18 +31,13 @@ SPF/BARE格式文件的好处:
 附：不同格式文件大小:  
 ![image](https://github.com/windgorain/mybpf/assets/35138361/7a62a067-4d74-49cc-8cb9-3735041291e5)
 
-# Helper
-分为四种不同类型Helper： Base、Sys、User、Temp  
-Base (0-1,000,000) ：ebpf的官方Helper，如6号bpf_trace_printk。预留一百万个范围给官方helper  
-Sys [1,000,000 - 2,000,000)： 通用的系统helper，如malloc、free，strcpy等。这些helper需要小心使用  
-User [2,000,000 - 3,000,000):  用户可自定义的全局Helper  
-Temp [3,000,000 - 4,000,000): 用户可自定义的临时Helper  
-
-# 热升级
-热升级分为几种情况：  
-  1. APP的热升级：这是ebpf框架原生支持的，可以随时加载、卸载、替换ebpf文件到内核。同样，mybpf也可以很方便对APP进行加载、卸载和升级。但需要注意的是，如果使用了非base helper的危险性helper，如malloc的非托管内存，卸载APP之前需要考虑是否主动Free内存.  
-  2. EBPF环境和SPF环境的热升级：可以热升级EPBF、SPF的运行环境，但需要注意的是，这会导致所有APP的卸载，热升级后需要重新加载这些APP。  
-  3. 不支持BARE环境的热升级，BARE环境当前是直接内嵌到目标系统，不支持热升级。当然，大多数情况下它也不需要升级。  
+# runtime说明
+| 名称  | 目录 | 说明 |
+| --- | --- | --- |
+| bare_cmd | mybpf/src/spf_runtime/bare_cmd | 运行BARE文件 |
+| bare_interactive | mybpf/src/spf_runtime/bare_interactive | 以交互模式运行BARE文件 |
+| bare_spf | mybpf/src/spf_runtime/bare_spf | 以交互模式运行SPF文件 |
+| uboot | runtime/uboot | 支持在uboot上运行 |
 
 # 性能测试
 测试环境:  
@@ -120,22 +115,22 @@ cd mybpf
 
 # 用法
 ## 编译  
-  编译为bare格式  
+  编译为BARE格式  
     runbpf convert bare ebpf文件名 -o 输出文件名  
   编译为SPF格式  
     runbpf convert simple -j ebpf文件名 -o 输出文件名  
 
 ## 执行 
-  运行bare格式文件:  
+  运行BARE格式文件:  
     runbpf run bare bare文件名  
   运行spf格式文件:  
     runbpf run file SPF文件名  
 
 ## runtime
 ### bare_cmd
-  bare_cmd是以命令行方式执行bare文件的runtime  
+  bare_cmd是以命令行方式执行BARE文件的runtime  
   用法:  bare_cmd file.bare  
-  file.bare: bare格式的app名称  
+  file.bare: 文件名  
 
 ### bare_interactive
   bare_interactive是交互模式的 bare runtime  
