@@ -1,33 +1,32 @@
 # 功能
-mybpf是一个可以在用户态、嵌入式、内核ko中都可以运行的一套ebpf框架。支持多种方式运行ebpf：
-  1. 可以以字节码方式解释执行
-  2. 可以JIT成本机指令运行
-  3. 可以AOT成指定目标指运行(Arm64和X86-64)
+mybpf是一个可以在用户态、嵌入式、内核ko中都可以运行的一套ebpf框架。支持多种方式运行ebpf：  
+  1. 可以以字节码方式解释执行  
+  2. 可以JIT成本机指令运行  
+  3. 可以编译为bare和SPF格式文件运行  
 
 # 特点
 mybpf的特点  
-  1. 既可以JIT，也可以AOT  
+  1. bare和SPF格式文件非常小，占用空间小  
   2. mybpf runtime很轻量，最精简的bare runtime实现不到100行C代码  
-  3. 可以AOT生成两种不同的文件格式，Bare格式极度精简但特性较少，SPF格式则支持的特性较多  
-  4. 支持Verifier、MAP、子函数调用、回调函数、全局变量  
-  5. 内置部分系统helper，支持自定义helper  
+  3. 支持Verifier、MAP、子函数调用、回调函数、全局变量  
+  4. 内置部分系统helper，支持自定义helper  
 
 # 架构
 mybpf主要分为两部分： 编译工具 + runtime。  
 编译工具部分支持JIT、AOT、解释器、dump、verifier 等功能  
 runtime负责运行ebpf文件  
 
-# AOT格式
-AOT当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
+# 文件格式
+当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
 支持输出两种不同的文件格式：SPF格式和BARE格式。  
 Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内部子函数、支持helper。不支持map。  
 SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
 
-AOT格式文件的好处:  
+SPF/BARE格式文件的好处:  
 1. 相比ELF, mybpf的AOT文件格式非常简单，处理它的runtime代码非常少。
 2. 因为runtime代码非常精简，所以非常容易到处移植  
 3. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
-4. 简洁的runtime不用频繁更新，大多数的功能升级、演进工作在编译工具中完成
+4. 简洁的runtime不用频繁更新，大多数的功能升级、演进工作在编译工具中完成  
 
 附：不同格式文件大小:  
 ![image](https://github.com/windgorain/mybpf/assets/35138361/7a62a067-4d74-49cc-8cb9-3735041291e5)
