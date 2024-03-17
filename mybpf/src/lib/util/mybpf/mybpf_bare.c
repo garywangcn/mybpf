@@ -13,9 +13,8 @@
 
 static void ** _mybpf_bare_malloc_bss(int bss_size)
 {
-    void **bss;
 
-    bss = MEM_Malloc(sizeof(void*));
+    void **bss = MEM_Malloc(sizeof(void*));
     if (! bss) {
         return NULL;
     }
@@ -41,19 +40,15 @@ static void _mybpf_bare_free_bss(void **bss)
 
 static int _mybpf_bare_check_depends(MYBPF_BARE_HDR_S *hdr, const void **tmp_helpers)
 {
-    int *helpers;
-    int depend_count;
-    int i;
-    void *fn;
-
-    depend_count = ntohs(hdr->depends_count);
+    int depend_count = ntohs(hdr->depends_count);
     if (depend_count == 0) {
         return 0;
     }
 
-    helpers = (void*)(hdr + 1);
-    for (i=0; i<depend_count; i++) {
-        fn = BpfHelper_GetFuncExt(ntohl(helpers[i]), tmp_helpers);
+    int *helpers = (void*)(hdr + 1);
+
+    for (int i=0; i<depend_count; i++) {
+        void *fn = BpfHelper_GetFuncExt(ntohl(helpers[i]), tmp_helpers);
         if (! fn) {
             RETURN(BS_NOT_SUPPORT);
         }
@@ -62,24 +57,24 @@ static int _mybpf_bare_check_depends(MYBPF_BARE_HDR_S *hdr, const void **tmp_hel
     return 0;
 }
 
-
+/* 0: OK; <0: Error */
 static int _mybpf_bare_check(void *mem, int mem_len, const void **tmp_helpers)
 {
     MYBPF_BARE_HDR_S *hdr = mem;
 
     if (mem_len <= sizeof(*hdr)) {
-        
+        /* 太小 */
         RETURNI(BS_TOO_SMALL, "Too small");
     }
 
     if (hdr->magic != htonl(MYBPF_BARE_MAGIC)) {
-        
+        /* 魔数不对 */
         RETURNI(BS_NOT_MATCHED, "Magic not match");
     }
 
     int size = ntohl(hdr->size);
     if (size > mem_len) {
-        
+        /* 文件太小 */
         RETURNI(BS_WRONG_FILE, "File length not valid");
     }
 
@@ -136,7 +131,7 @@ static U64 _mybpf_bare_run(MYBPF_BARE_S *bare, const void **tmp_helpers, MYBPF_P
         RETURN(BS_ERR);
     }
 
-    
+    /* 只支持runbpf -j -m 4编译的Bare文件 */
     ctx.base_helpers = BpfHelper_BaseHelper();
     ctx.sys_helpers = BpfHelper_SysHelper();
     ctx.user_helpers = BpfHelper_UserHelper();
@@ -198,7 +193,7 @@ U64 MYBPF_RunBare(MYBPF_BARE_S *bare, const void **tmp_helpers, MYBPF_PARAM_S *p
     return _mybpf_bare_run(bare, tmp_helpers, p);
 }
 
-
+/* 运行一次文件 */
 U64 MYBPF_RunBareFile(char *file, const void **tmp_helpers, MYBPF_PARAM_S *p)
 {
     MYBPF_BARE_S bare;

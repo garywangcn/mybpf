@@ -6,8 +6,8 @@
 #ifndef _MYBPF_BARE_H
 #define _MYBPF_BARE_H
 
-#include "mybpf_utl.h"
-#include "mybpf_bare_def.h"
+#include "utl/mybpf_utl.h"
+#include "utl/mybpf_bare_def.h"
 
 #ifdef __cplusplus
 extern "C" {
