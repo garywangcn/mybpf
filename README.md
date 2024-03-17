@@ -13,8 +13,8 @@ mybpf的特点
 
 # 架构
 mybpf主要分为两部分： 编译工具 + runtime。  
-编译工具部分支持JIT、AOT、解释器、dump、verifier 等功能  
-runtime负责运行ebpf文件  
+编译工具支持将ebpf文件编译为SPF/BARE文件  
+runtime负责运行SPF/BARE文件  
 
 # 文件格式
 当前支持两种目标指令集：ARM64和X86-64，其它还待增加。  
@@ -23,7 +23,7 @@ Bare格式较简单，支持bss全局变量(不支持data, rodata),  支持内�
 SPF格式比Bare格式复杂(但也比elf要简单)，支持全局变量(bss、data、rodata)、子函数、map、helper。  
 
 SPF/BARE格式文件的好处:  
-1. 相比ELF, mybpf的AOT文件格式非常简单，处理它的runtime代码非常少。
+1. 相比ELF, mybpf的文件格式非常简单，这使得处理这种格式的runtime代码非常少。  
 2. 因为runtime代码非常精简，所以非常容易到处移植  
 3. 占用存储空间很少(Flash、RAM需求都很少)，需要的代码段资源也很少，这对资源紧张的嵌入式系统很友好  
 4. 简洁的runtime不用频繁更新，大多数的功能升级、演进工作在编译工具中完成  
@@ -69,14 +69,14 @@ time ./runbpf run file fibonacci.o -p 10000000000 -j
 2.89s user 0.00s system 99% cpu 2.908 total  
 2.89s user 0.00s system 99% cpu 2.914 total  
 
-AOT成SPF格式执行:  
+编译成SPF格式执行:  
 ./runbpf con sim -j -m 4 fibonacci.o -o fibonacci.spf  
 time ./runbpf run file fibonacci.spf -p 10000000000  
 执行两次结果:  
 2.89s user 0.00s system 99% cpu 2.911 total  
 2.89s user 0.00s system 99% cpu 2.908 total  
 
-AOT成BARE格式执行:  
+编译成BARE格式执行:  
 ./runbpf con bare -j -m 4 fibonacci.o -o fibonacci.bare  
 time ./runbpf run bare fibonacci.bare -p 10000000000  
 执行两次结果:  
@@ -119,7 +119,7 @@ cd mybpf
 编译结果在: build/out/  
 
 # 用法
-## AOT编译  
+## 编译  
   编译为bare格式  
     runbpf convert bare ebpf文件名 -o 输出文件名  
   编译为SPF格式  
