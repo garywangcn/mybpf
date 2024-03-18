@@ -37,6 +37,7 @@ SPF/BARE格式文件的好处:
 | bare_cmd | mybpf/src/spf_runtime/bare_cmd | 运行BARE文件 |
 | bare_interactive | mybpf/src/spf_runtime/bare_interactive | 以交互模式运行BARE文件 |
 | bare_spf | mybpf/src/spf_runtime/bare_spf | 以交互模式运行SPF文件 |
+| mini | runtime/mini | 非常小的bare runtime |
 | uboot | runtime/uboot | 支持在uboot上运行 |
 
 # 性能测试
