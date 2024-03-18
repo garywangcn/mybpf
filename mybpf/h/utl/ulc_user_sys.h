@@ -33,6 +33,7 @@ extern "C"
 #define strdup ulc_sys_strdup
 
 #define memcpy(a,b,c) ulc_sys_memcpy(a,b,c)
+#define memmove(a,b,c) ulc_sys_memmove(a,b,c)
 
 #define access(a,b) ulc_sys_access(a,b)
 #define ftell(a) ulc_sys_ftell(a)
@@ -62,6 +63,8 @@ extern "C"
     if (_count <= 10) { _ret = ulc_sys_fprintf(fp,fmt,_d,_count);} \
     _ret; \
 })
+
+#define time(a) ulc_sys_time(a)
 
 #undef assert
 #define assert(x) 
@@ -99,6 +102,7 @@ static char * (*ulc_sys_strdup)(void *s) = (void*)1000013;
 
 static void (*ulc_sys_memcpy)(void *d, const void *s, int len) = (void*)1000040;
 static void (*ulc_sys_memset)(void *d, int c, int len) = (void*)1000041;
+static void * (*ulc_sys_memmove)(void *str1, const void *str2, int n) = (void*)1000042;
 
 static int (*ulc_sys_access)(const char *pathname, int mode) = (void*)1000100;
 static int (*ulc_sys_fprintf)(void *fp, char *fmt, U64 *d, int count) = (void*)1000101;
@@ -107,6 +111,8 @@ static int (*ulc_sys_fseek)(void *fp, long int offset, int whence) = (void*)1000
 static void * (*ulc_sys_fopen)(const char *filename, const char *mode) = (void*)1000104;
 static long (*ulc_sys_fread)(void *ptr, long size, long nmemb, void *stream) = (void*)1000105;
 static int (*ulc_sys_fclose)(void *stream) = (void*)1000106;
+
+static U64 (*ulc_sys_time)(U64 *seconds) = (void*)1000130;
 
 static int (*ulc_set_trusteeship)(unsigned int id, void *ptr) = (void*)1000400;
 static void * (*ulc_get_trusteeship)(unsigned int id) = (void*)1000401;

@@ -268,11 +268,28 @@ static inline int mybpf_simple_get_maps_section(FILE_MEM_S *m, OUT MYBPF_MAPS_SE
     return 0;
 }
 
+int _MYBPF_SIMPLE_Write(VBUF_S *vbuf, void *mem, int size);
+int _MYBPF_SIMPLE_WriteHeader(U16 app_ver, VBUF_S *vbuf);
+int _MYBPF_SIMPLE_WriteTotleSize(VBUF_S *vbuf);
+int _MYBPF_SIMPLE_WriteProgsName(VBUF_S *vbuf, ELF_PROG_INFO_S *progs, int prog_count);
+int _MYBPF_SIMPLE_WriteProgInfo(VBUF_S *vbuf, ELF_PROG_INFO_S *progs_info, int prog_count);
+int _MYBPF_SIMPLE_WriteProgInfoHdr(VBUF_S *vbuf, int info_size, int func_count);
+int _MYBPF_SIMPLE_WriteFuncInfo(VBUF_S *vbuf, ELF_PROG_INFO_S *progs_info, int prog_count);
+int _MYBPF_SIMPLE_WriteProgHdr(VBUF_S *vbuf, int prog_size, int jit_arch);
+int _MYBPF_SIMPLE_WriteProgSec(VBUF_S *vbuf, void *mem, int mem_size, int jit_arch);
+int _MYBPF_SIMPLE_WriteGlobalDataSecs(VBUF_S *vbuf, ELF_S *elf, ELF_GLOBAL_DATA_S *data);
+int _MYBPF_SIMPLE_AddMapSecHdr(VBUF_S *vbuf, int map_count, int map_def_size, U8 flags);
+int _MYBPF_SIMPE_AddMap(OUT VBUF_S *vbuf, MYBPF_MAPS_SEC_S *s, int padding_len);
+int _MYBPF_SIMPLE_WriteMapsSec(VBUF_S *vbuf, ELF_S *elf, ELF_GLOBAL_DATA_S *global_data, MYBPF_MAPS_SEC_S *map_sec);
+int _MYBPF_SIMPLE_WriteMapsNameSec(VBUF_S *vbuf, ELF_GLOBAL_DATA_S *data, MYBPF_MAPS_SEC_S *map_sec, char **maps_name);
+int _MYBPF_SIMPLE_DropSubProgInfo(INOUT ELF_PROG_INFO_S *progs, int count);
+int _MYBPF_SIMPLE_WriteHelperDependsSec(VBUF_S *vbuf, MYBPF_HELPER_DEPENDS_S *d);
 void _MYBPF_SIMPLE_BuildReloMaps(ELF_GLOBAL_DATA_S *data, MYBPF_MAPS_SEC_S *map_sec, OUT MYBPF_RELO_MAP_S *maps_relo);
 int _MYBPF_SIMPLE_AddHelperDepends(void *insts, int insn_index, void *ud);
-int _MYBPF_SIMPLE_DropSubProgInfo(INOUT ELF_PROG_INFO_S *progs, int count);
 void _MYBPF_SIMPLE_DropProgName(INOUT ELF_PROG_INFO_S *progs, int count);
 int _MYBPF_SIMPLE_GetHelperOffset(int imm, void *ud);
+int _MYBPF_SIMPLE_MergeMapName(FILE_MEM_S *m1, FILE_MEM_S *m2, OUT VBUF_S *vbuf);
+int _MYBPF_SIMPLE_MergeDepends(FILE_MEM_S *m1, FILE_MEM_S *m2, OUT VBUF_S *vbuf, MYBPF_HELPER_DEPENDS_S *d);
 
 #ifdef __cplusplus
 }

@@ -114,6 +114,12 @@ typedef struct {
     UCHAR reserved2;
 }MYBPF_SIMPLE_HELPER_DENENDS_HDR_S;
 
+
+typedef struct {
+    UINT sec_size; 
+    UCHAR sec_type;
+}MYBPF_SIMPLE_END_S;
+
 #ifdef __cplusplus
 }
 #endif
